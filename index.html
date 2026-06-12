@@ -1,1944 +1,2182 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Halal Seoul – Your Trusted K-Food Halal Scanner</title>
-  <meta name="description"
-    content="Scan any Korean food product and instantly know if it's Halal. AI-powered barcode scanner built for Muslims living in and visiting Korea.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
-    rel="stylesheet">
-  <style>
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0
-    }
-
-    :root {
-      --green: #0D7A55;
-      --green-light: #10B97A;
-      --green-soft: #E8F5EE;
-      --gold: #B8860B;
-      --gold-soft: #FDF6E3;
-      --bg: #FFFFFF;
-      --bg2: #F7F9FB;
-      --bg3: #F0F4F3;
-      --text: #1A2B1F;
-      --text2: #5A6B60;
-      --text3: #8A9B8F;
-      --border: #E2E8E4;
-      --radius: 16px;
-    }
-
-    html {
-      scroll-behavior: smooth;
-      font-size: 15px !important
-    }
-
-    body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 15px !important;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.85;
-      overflow-x: hidden
-    }
-
-    /* ──── NAV ──── */
-    nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      background: rgba(255, 255, 255, .92);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
-      padding: 0 32px
-    }
-
-    .nav-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 72px
-    }
-
-    .logo {
-      font-size: 1.4rem;
-      font-weight: 800;
-      color: var(--text);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      text-decoration: none
-    }
-
-    .logo span {
-      color: var(--green)
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 36px;
-      list-style: none
-    }
-
-    .nav-links a {
-      color: var(--text2);
-      text-decoration: none;
-      font-size: 1rem;
-      font-weight: 600;
-      transition: color .2s
-    }
-
-    .nav-links a:hover {
-      color: var(--green)
-    }
-
-    .nav-cta {
-      background: var(--green);
-      color: #fff;
-      border: none;
-      padding: 12px 24px;
-      border-radius: 10px;
-      font-weight: 700;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: transform .15s, box-shadow .2s;
-      font-family: inherit
-    }
-
-    .nav-cta:hover {
-      transform: scale(1.03);
-      box-shadow: 0 4px 20px rgba(13, 122, 85, .25)
-    }
-
-    .nav-mobile-cta {
-      display: none
-    }
-
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      cursor: pointer;
-      background: none;
-      border: none;
-      padding: 4px
-    }
-
-    .hamburger span {
-      width: 24px;
-      height: 2.5px;
-      background: var(--text);
-      border-radius: 2px;
-      transition: .3s
-    }
-
-    .hamburger.open span:nth-child(1) {
-      transform: translateY(7.5px) rotate(45deg)
-    }
-
-    .hamburger.open span:nth-child(2) {
-      opacity: 0
-    }
-
-    .hamburger.open span:nth-child(3) {
-      transform: translateY(-7.5px) rotate(-45deg)
-    }
-
-    @keyframes slideDown {
-      from {
-        opacity: 0;
-        transform: translateY(-10px)
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0)
-      }
-    }
-
-    /* ──── HERO ──── */
-    #hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      padding-top: 0;
-      position: relative;
-      overflow: hidden;
-      background: linear-gradient(170deg, #FFFFFF 0%, #F0FAF5 40%, #FDF6E3 100%)
-    }
-
-    .hero-deco {
-      position: absolute;
-      width: 500px;
-      height: 500px;
-      border-radius: 50%;
-      filter: blur(120px);
-      opacity: .35;
-      pointer-events: none
-    }
-
-    .hero-deco.a {
-      background: var(--green-light);
-      top: -100px;
-      right: -100px
-    }
-
-    .hero-deco.b {
-      background: #C9A84C;
-      bottom: -120px;
-      left: -80px;
-      opacity: .2
-    }
-
-    .hero-content {
-      position: relative;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 80px 32px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 72px;
-      align-items: center
-    }
-
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--green-soft);
-      border: 1px solid rgba(13, 122, 85, .15);
-      border-radius: 99px;
-      padding: 8px 20px;
-      font-size: .85rem;
-      font-weight: 600;
-      letter-spacing: .04em;
-      color: var(--green);
-      margin-bottom: 24px
-    }
-
-    .hero-badge::before {
-      content: '☽';
-      font-size: 1rem
-    }
-
-    h1 {
-      font-size: clamp(52px, 6.5vw, 88px);
-      font-weight: 900;
-      line-height: 1.12;
-      margin-bottom: 24px;
-      letter-spacing: -.02em
-    }
-
-    h1 em {
-      font-style: normal;
-      color: var(--green)
-    }
-
-    .hero-sub {
-      font-size: 1.45rem;
-      font-weight: 500;
-      color: var(--text2);
-      margin-bottom: 40px;
-      max-width: 500px;
-      line-height: 1.85
-    }
-
-    .hero-btns {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap
-    }
-
-    .btn-primary {
-      background: var(--green);
-      color: #fff;
-      padding: 16px 32px;
-      border-radius: 10px;
-      font-weight: 700;
-      font-size: 1.1rem;
-      border: none;
-      cursor: pointer;
-      transition: transform .15s, box-shadow .2s;
-      text-decoration: none;
-      display: inline-block;
-      font-family: inherit
-    }
-
-    .btn-primary:hover {
-      transform: scale(1.02);
-      box-shadow: 0 8px 32px rgba(13, 122, 85, .3)
-    }
-
-    .btn-outline {
-      background: transparent;
-      color: var(--green);
-      padding: 16px 32px;
-      border-radius: 10px;
-      font-weight: 600;
-      font-size: 1.1rem;
-      border: 2px solid var(--green);
-      cursor: pointer;
-      transition: background .2s;
-      text-decoration: none;
-      display: inline-block
-    }
-
-    .btn-outline:hover {
-      background: var(--green-soft)
-    }
-
-    .hero-visual {
-      position: relative;
-      display: flex;
-      justify-content: center
-    }
-
-    /* ──── HERO CTA BLOCK ──── */
-    .hero-cta-block {
-      margin-top: 40px;
-      padding: 28px 32px;
-      background: var(--green-soft);
-      border: 1px solid rgba(13, 122, 85, .2);
-      border-radius: var(--radius)
-    }
-
-    .hero-cta-label {
-      font-size: 1rem;
-      color: var(--text2);
-      margin-bottom: 18px;
-      line-height: 1.75
-    }
-
-    .hero-cta-label strong {
-      color: var(--green);
-      font-weight: 800
-    }
-
-    .hero-cta-trust {
-      margin-top: 14px;
-      font-size: .82rem;
-      color: var(--text2);
-      line-height: 1.6;
-      letter-spacing: .01em
-    }
-
-    /* ──── HERO PHONE SVG ──── */
-    .hero-phone-svg {
-      width: 100%;
-      max-width: 380px;
-      border-radius: 24px;
-      box-shadow: 0 24px 64px rgba(0, 0, 0, .12);
-      border: 1px solid var(--border)
-    }
-
-    .floating-badge {
-      position: absolute;
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 12px 18px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, .06);
-      font-size: .9rem;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      animation: float 3s ease-in-out infinite
-    }
-
-    .floating-badge.one {
-      top: 8%;
-      left: -5%
-    }
-
-    .floating-badge.two {
-      bottom: 12%;
-      right: -5%
-    }
-
-    .dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: var(--green-light)
-    }
-
-    @keyframes float {
-
-      0%,
-      100% {
-        transform: translateY(0)
-      }
-
-      50% {
-        transform: translateY(-8px)
-      }
-    }
-
-    /* ──── SECTION BASE ──── */
-    section {
-      padding: 100px 32px
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto
-    }
-
-    .section-label {
-      font-size: .9rem;
-      font-weight: 700;
-      letter-spacing: .16em;
-      text-transform: uppercase;
-      color: var(--green);
-      margin-bottom: 12px
-    }
-
-    h2 {
-      font-size: clamp(38px, 5vw, 64px);
-      font-weight: 800;
-      margin-bottom: 14px;
-      line-height: 1.15;
-      letter-spacing: -.025em
-    }
-
-    .section-sub {
-      color: var(--text2);
-      font-size: 1.2rem;
-      max-width: 560px;
-      line-height: 1.8;
-      margin-top: 10px
-    }
-
-    /* ──── PROBLEM ──── */
-    #problem {
-      background: var(--bg2)
-    }
-
-    .problem-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-      margin-top: 56px
-    }
-
-    .problem-card {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-left: 3px solid var(--border);
-      border-radius: var(--radius);
-      padding: 36px 28px;
-      transition: transform .25s, box-shadow .25s, border-left-color .2s
-    }
-
-    .problem-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 36px rgba(0, 0, 0, .06);
-      border-left-color: var(--green)
-    }
-
-    .problem-icon {
-      width: 56px;
-      height: 56px;
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.6rem;
-      margin-bottom: 20px
-    }
-
-    .problem-card:nth-child(1) .problem-icon {
-      background: #FEE2E2;
-      color: #B91C1C
-    }
-
-    .problem-card:nth-child(2) .problem-icon {
-      background: #FEF3C7;
-      color: #B45309
-    }
-
-    .problem-card:nth-child(3) .problem-icon {
-      background: #DBEAFE;
-      color: #1D4ED8
-    }
-
-    .problem-card h3 {
-      font-size: 1.25rem;
-      font-weight: 800;
-      margin-bottom: 12px
-    }
-
-    .problem-card p {
-      color: var(--text2);
-      font-size: 1.05rem;
-      line-height: 1.8
-    }
-
-    /* ──── FEATURES ──── */
-    #features {
-      background: var(--bg)
-    }
-
-    .feature-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 72px;
-      align-items: center;
-      margin-top: 72px
-    }
-
-    .feature-row.reverse {
-      direction: rtl
-    }
-
-    .feature-row.reverse>* {
-      direction: ltr
-    }
-
-    .feature-text h3 {
-      font-size: 1.7rem;
-      font-weight: 800;
-      margin-bottom: 16px
-    }
-
-    .feature-text p {
-      color: var(--text2);
-      line-height: 1.8;
-      margin-bottom: 18px;
-      font-size: 1.1rem
-    }
-
-    .feature-tag {
-      display: inline-block;
-      background: var(--green-soft);
-      color: var(--green);
-      border-radius: 8px;
-      padding: 6px 14px;
-      font-size: .82rem;
-      font-weight: 700;
-      letter-spacing: .04em;
-      margin-bottom: 14px
-    }
-
-    /* ──── FEATURE VISUAL: SCANNER ──── */
-    .feature-visual {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      height: 300px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      position: relative
-    }
-
-    .scanner-mockup {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 18px;
-      width: 100%;
-      height: 100%;
-      background: var(--bg2)
-    }
-
-    .scanner-barcode-wrap {
-      position: relative;
-      width: 180px;
-      height: 120px;
-      background: #fff;
-      border-radius: 10px;
-      border: 1.5px solid var(--border);
-      overflow: hidden;
-      display: flex;
-      align-items: stretch;
-      padding: 12px 10px;
-      gap: 3px
-    }
-
-    .bc-line {
-      background: #1A2B1F;
-      border-radius: 1px;
-      flex: 1
-    }
-
-    .bc-line:nth-child(even) {
-      flex: 2
-    }
-
-    .bc-line:nth-child(3n) {
-      flex: 1.5
-    }
-
-    .scan-beam {
-      position: absolute;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: var(--green);
-      box-shadow: 0 0 8px rgba(13, 122, 85, .6);
-      animation: scanline 2s ease-in-out infinite;
-      top: 10%
-    }
-
-    @keyframes scanline {
-
-      0%,
-      100% {
-        top: 10%
-      }
-
-      50% {
-        top: 85%
-      }
-    }
-
-    .scanner-corner {
-      position: absolute;
-      width: 18px;
-      height: 18px;
-      border-color: var(--green);
-      border-style: solid;
-      border-width: 0
-    }
-
-    .scanner-corner.tl {
-      top: 4px;
-      left: 4px;
-      border-top-width: 2.5px;
-      border-left-width: 2.5px
-    }
-
-    .scanner-corner.tr {
-      top: 4px;
-      right: 4px;
-      border-top-width: 2.5px;
-      border-right-width: 2.5px
-    }
-
-    .scanner-corner.bl {
-      bottom: 4px;
-      left: 4px;
-      border-bottom-width: 2.5px;
-      border-left-width: 2.5px
-    }
-
-    .scanner-corner.br {
-      bottom: 4px;
-      right: 4px;
-      border-bottom-width: 2.5px;
-      border-right-width: 2.5px
-    }
-
-    .halal-result-badge {
-      background: var(--green-soft);
-      border: 2px solid var(--green);
-      border-radius: 10px;
-      padding: 8px 24px;
-      font-weight: 800;
-      font-size: 1.05rem;
-      color: var(--green);
-      letter-spacing: .05em
-    }
-
-    /* ──── FEATURE VISUAL: BAR CHART ──── */
-    .chart-mockup {
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      padding: 32px 32px 48px;
-      gap: 10px;
-      background: var(--bg2)
-    }
-
-    .chart-col {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      flex: 1;
-      max-width: 52px
-    }
-
-    .chart-bar {
-      width: 100%;
-      background: linear-gradient(to top, var(--green), var(--green-light));
-      border-radius: 6px 6px 2px 2px;
-      transition: opacity .2s
-    }
-
-    .chart-bar:hover {
-      opacity: .8
-    }
-
-    .chart-day {
-      font-size: .72rem;
-      font-weight: 600;
-      color: var(--text3)
-    }
-
-    /* ──── FEATURE VISUAL: ALT RECOMMENDATION ──── */
-    .alt-rec-mockup {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      padding: 28px 28px;
-      background: var(--bg2)
-    }
-
-    .alt-rejected {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: #FEE2E2;
-      border: 1.5px solid #FCA5A5;
-      border-radius: 10px;
-      padding: 10px 16px;
-      width: 100%
-    }
-
-    .alt-x {
-      color: #B91C1C;
-      font-weight: 800;
-      font-size: 1rem
-    }
-
-    .alt-prod-name {
-      flex: 1;
-      font-weight: 600;
-      font-size: .88rem;
-      color: var(--text)
-    }
-
-    .alt-haram-badge {
-      background: #B91C1C;
-      color: #fff;
-      font-size: .68rem;
-      font-weight: 700;
-      padding: 3px 9px;
-      border-radius: 6px;
-      letter-spacing: .05em
-    }
-
-    .alt-arrow {
-      font-size: 1.3rem;
-      color: var(--green);
-      line-height: 1
-    }
-
-    .alt-cards {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      width: 100%
-    }
-
-    .alt-card {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: #fff;
-      border: 1.5px solid var(--green);
-      border-radius: 10px;
-      padding: 10px 14px
-    }
-
-    .alt-card-icon {
-      font-size: 1.2rem
-    }
-
-    .alt-card-info {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: space-between
-    }
-
-    .alt-card-name {
-      font-size: .85rem;
-      font-weight: 600;
-      color: var(--text)
-    }
-
-    .alt-halal-tag {
-      background: var(--green-soft);
-      color: var(--green);
-      font-size: .68rem;
-      font-weight: 700;
-      padding: 3px 9px;
-      border-radius: 6px;
-      letter-spacing: .04em
-    }
-
-    /* ──── FEATURE VISUAL: COMMUNITY ──── */
-    .community-mockup {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 20px 24px;
-      background: var(--bg2)
-    }
-
-    .mini-review {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 10px 14px;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      gap: 12px
-    }
-
-    .mini-avatar {
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      background: var(--green);
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: .85rem;
-      flex-shrink: 0
-    }
-
-    .mini-avatar.b {
-      background: #1D4ED8
-    }
-
-    .mini-avatar.c {
-      background: var(--gold)
-    }
-
-    .mini-review-body {
-      flex: 1
-    }
-
-    .mini-stars-sm {
-      color: var(--gold);
-      font-size: .7rem;
-      line-height: 1
-    }
-
-    .mini-review-text {
-      font-size: .73rem;
-      color: var(--text2);
-      margin-top: 2px;
-      line-height: 1.4
-    }
-
-    /* ──── STATS ──── */
-    #stats {
-      background: var(--green);
-      color: #fff;
-      text-align: center;
-      position: relative;
-      overflow: hidden
-    }
-
-    #stats::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cpath d='M40 0L80 40L40 80L0 40Z' fill='none' stroke='white' stroke-width='.4'/%3E%3Cpath d='M40 12L68 40L40 68L12 40Z' fill='none' stroke='white' stroke-width='.3'/%3E%3C/svg%3E");
-      opacity: .06
-    }
-
-    #stats .section-label {
-      color: rgba(255, 255, 255, .7)
-    }
-
-    #stats h2 {
-      color: #fff
-    }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 32px;
-      margin-top: 56px;
-      position: relative
-    }
-
-    .stat-card {
-      padding: 36px 16px
-    }
-
-    .stat-num {
-      font-size: clamp(52px, 8vw, 80px);
-      font-weight: 900;
-      display: block;
-      line-height: 1
-    }
-
-    .stat-label {
-      color: rgba(255, 255, 255, .75);
-      font-size: 1.1rem;
-      margin-top: 10px;
-      line-height: 1.5
-    }
-
-    .stat-label strong {
-      color: #fff;
-      font-size: 1.05rem
-    }
-
-    /* ──── HOW ──── */
-    #how {
-      background: var(--bg2)
-    }
-
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 28px;
-      margin-top: 56px
-    }
-
-    .step {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-left: 3px solid var(--border);
-      border-radius: var(--radius);
-      padding: 40px 28px;
-      text-align: center;
-      transition: transform .2s, box-shadow .2s, border-left-color .2s
-    }
-
-    .step:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 36px rgba(0, 0, 0, .06);
-      border-left-color: var(--green)
-    }
-
-    .step-num {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background: var(--green);
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      font-size: 1.3rem;
-      margin: 0 auto 24px;
-      box-shadow: 0 8px 24px rgba(13, 122, 85, .2)
-    }
-
-    .step h3 {
-      font-size: 1.25rem;
-      font-weight: 800;
-      margin-bottom: 12px
-    }
-
-    .step p {
-      color: var(--text2);
-      font-size: 1.05rem;
-      line-height: 1.8
-    }
-
-    /* ──── SOCIAL PROOF ──── */
-    #proof {
-      background: var(--bg)
-    }
-
-    .proof-cards {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-      margin-top: 40px
-    }
-
-    .proof-quote {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-left: 4px solid var(--green);
-      border-radius: var(--radius);
-      padding: 32px;
-      font-size: 1.4rem;
-      font-weight: 500;
-      color: var(--text2);
-      line-height: 1.9;
-      font-style: italic;
-      transition: transform .2s, border-left-color .2s
-    }
-
-    .proof-quote:hover {
-      transform: translateY(-2px);
-      border-left-color: var(--green-light)
-    }
-
-    .proof-meta {
-      margin-top: 18px;
-      font-size: .95rem;
-      font-weight: 700;
-      color: var(--green);
-      font-style: normal;
-      letter-spacing: .01em
-    }
-
-    .review-score {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-top: 28px;
-      flex-wrap: wrap
-    }
-
-    .stars {
-      color: var(--gold);
-      font-size: 1.5rem
-    }
-
-    .score-text {
-      font-weight: 700;
-      font-size: 1.1rem
-    }
-
-    .score-sub {
-      color: var(--text3);
-      font-size: .95rem
-    }
-
-    /* ──── REGISTER SECTION ──── */
-    #register {
-      text-align: center;
-      padding: 120px 32px;
-      background: linear-gradient(170deg, #F0FAF5 0%, #FDF6E3 50%, #FFFFFF 100%);
-      position: relative
-    }
-
-    #register h2 {
-      margin-bottom: 18px
-    }
-
-    #register > .container > p {
-      color: var(--text2);
-      font-size: 1.2rem;
-      max-width: 540px;
-      margin: 0 auto 32px;
-      line-height: 1.8
-    }
-
-    /* ──── FINAL CTA ──── */
-    #cta {
-      text-align: center;
-      padding: 120px 32px;
-      background: linear-gradient(170deg, #F0FAF5 0%, #FDF6E3 50%, #FFFFFF 100%);
-      position: relative
-    }
-
-    #cta h2 {
-      font-size: clamp(30px, 4.5vw, 52px);
-      margin-bottom: 18px
-    }
-
-    #cta p {
-      color: var(--text2);
-      margin-bottom: 40px;
-      font-size: 1.15rem;
-      max-width: 540px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.8
-    }
-
-    .trust-line {
-      margin-top: 20px;
-      font-size: .9rem;
-      color: var(--text3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px
-    }
-
-    /* ──── SIGNUP FORM ──── */
-    .signup-form {
-      max-width: 480px;
-      margin: 0 auto
-    }
-
-    .form-row {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 12px
-    }
-
-    .form-row input {
-      flex: 1;
-      padding: 16px 20px;
-      border-radius: 10px;
-      border: 2px solid var(--border);
-      font-size: 1rem;
-      font-family: inherit;
-      background: #fff;
-      color: var(--text);
-      transition: border-color .2s, box-shadow .2s;
-      outline: none
-    }
-
-    .form-row input:focus {
-      border-color: var(--green);
-      box-shadow: 0 0 0 4px rgba(13, 122, 85, .1)
-    }
-
-    .form-row input::placeholder {
-      color: var(--text3)
-    }
-
-    .form-submit {
-      width: 100%;
-      padding: 16px 32px;
-      border-radius: 10px;
-      background: var(--green);
-      color: #fff;
-      font-size: 1.1rem;
-      font-weight: 700;
-      border: none;
-      cursor: pointer;
-      font-family: inherit;
-      transition: transform .15s, box-shadow .2s
-    }
-
-    .form-submit:hover {
-      transform: scale(1.02);
-      box-shadow: 0 8px 32px rgba(13, 122, 85, .3)
-    }
-
-    .form-submit:disabled {
-      opacity: .6;
-      cursor: not-allowed;
-      transform: none
-    }
-
-    .coupon-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--gold-soft);
-      border: 1px solid rgba(184, 134, 11, .2);
-      border-radius: 99px;
-      padding: 8px 20px;
-      font-size: .88rem;
-      font-weight: 600;
-      color: var(--gold);
-      margin-bottom: 24px
-    }
-
-    .form-success {
-      display: none;
-      background: var(--green-soft);
-      border: 2px solid var(--green);
-      border-radius: var(--radius);
-      padding: 36px;
-      text-align: center;
-      max-width: 480px;
-      margin: 0 auto
-    }
-
-    .form-success.show {
-      display: block;
-      animation: popIn .4s ease
-    }
-
-    .form-success h3 {
-      color: var(--green);
-      font-size: 1.3rem;
-      margin-bottom: 8px
-    }
-
-    .form-success p {
-      color: var(--text2);
-      font-size: 1rem
-    }
-
-    .form-success .coupon-code {
-      display: inline-block;
-      background: #fff;
-      border: 2px dashed var(--green);
-      border-radius: 10px;
-      padding: 12px 28px;
-      font-size: 1.2rem;
-      font-weight: 800;
-      letter-spacing: .08em;
-      color: var(--green);
-      margin: 16px 0
-    }
-
-    .copy-coupon-btn {
-      display: inline-block;
-      margin-top: 4px;
-      padding: 7px 20px;
-      background: transparent;
-      border: 1.5px solid var(--green);
-      border-radius: 8px;
-      color: var(--green);
-      font-size: .88rem;
-      font-weight: 600;
-      cursor: pointer;
-      font-family: inherit;
-      transition: background .2s, color .2s
-    }
-
-    .copy-coupon-btn:hover {
-      background: var(--green-soft)
-    }
-
-    .form-toggle {
-      display: flex;
-      background: var(--bg2);
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      overflow: hidden;
-      margin-bottom: 16px
-    }
-
-    .form-toggle button {
-      flex: 1;
-      padding: 12px 16px;
-      border: none;
-      background: transparent;
-      font-size: .95rem;
-      font-weight: 600;
-      cursor: pointer;
-      font-family: inherit;
-      color: var(--text2);
-      transition: all .2s
-    }
-
-    .form-toggle button.active {
-      background: var(--green);
-      color: #fff
-    }
-
-    @keyframes popIn {
-      from {
-        opacity: 0;
-        transform: scale(.95)
-      }
-
-      to {
-        opacity: 1;
-        transform: scale(1)
-      }
-    }
-
-    /* ──── HERO FORM (inline) ──── */
-    .hero-form {
-      max-width: 420px
-    }
-
-    .hero-form .form-row {
-      margin-bottom: 0
-    }
-
-    .hero-form .form-row input {
-      padding: 14px 18px;
-      font-size: .95rem
-    }
-
-    .hero-form .inline-submit {
-      padding: 14px 24px;
-      border-radius: 10px;
-      background: var(--green);
-      color: #fff;
-      font-size: .95rem;
-      font-weight: 700;
-      border: none;
-      cursor: pointer;
-      font-family: inherit;
-      white-space: nowrap;
-      transition: transform .15s, box-shadow .2s
-    }
-
-    .hero-form .inline-submit:hover {
-      transform: scale(1.02);
-      box-shadow: 0 4px 20px rgba(13, 122, 85, .25)
-    }
-
-    .hero-form .form-hint {
-      font-size: .82rem;
-      color: var(--text3);
-      margin-top: 8px
-    }
-
-    .hero-form .form-hint strong {
-      color: var(--gold);
-      font-weight: 700
-    }
-
-    .hero-form .mini-success {
-      display: none;
-      background: var(--green-soft);
-      border-radius: 10px;
-      padding: 16px;
-      text-align: center
-    }
-
-    .hero-form .mini-success.show {
-      display: block;
-      animation: popIn .4s ease
-    }
-
-    .hero-form .mini-success p {
-      font-weight: 600;
-      color: var(--green);
-      font-size: .95rem;
-      margin: 0
-    }
-
-    .coming-soon-pill {
-      display: inline-block;
-      background: linear-gradient(135deg, var(--green), var(--green-light));
-      color: #fff;
-      border-radius: 99px;
-      padding: 4px 14px;
-      font-size: .75rem;
-      font-weight: 700;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      margin-left: 8px;
-      vertical-align: middle
-    }
-
-    /* ──── FOOTER ──── */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 48px 32px;
-      text-align: center;
-      color: var(--text2);
-      font-size: .9rem;
-      background: var(--bg2)
-    }
-
-    footer a {
-      color: var(--green);
-      text-decoration: none;
-      font-weight: 500
-    }
-
-    footer a:hover {
-      text-decoration: underline
-    }
-
-    .footer-logo {
-      font-size: 1.2rem;
-      font-weight: 800;
-      color: var(--text);
-      margin-bottom: 8px
-    }
-
-    .footer-logo span {
-      color: var(--green)
-    }
-
-    /* ──── SCROLL ANIMATION ──── */
-    .fade-in {
-      opacity: 0;
-      transform: translateY(24px);
-      transition: opacity .6s ease, transform .6s ease
-    }
-
-    .fade-in.visible {
-      opacity: 1;
-      transform: translateY(0)
-    }
-
-    /* ──── MOBILE ──── */
-    @media(max-width:768px) {
-      nav {
-        padding: 0 20px
-      }
-
-      .nav-links {
-        display: none
-      }
-
-      .nav-links.nav-open {
-        display: flex;
-        flex-direction: column;
-        gap: 0;
-        position: absolute;
-        top: 72px;
-        left: 0;
-        right: 0;
-        background: rgba(255, 255, 255, .97);
-        backdrop-filter: blur(16px);
-        border-bottom: 1px solid var(--border);
-        padding: 8px 20px 20px;
-        z-index: 99;
-        animation: slideDown .25s ease
-      }
-
-      .nav-links.nav-open li {
-        border-bottom: 1px solid var(--border);
-        padding: 12px 0
-      }
-
-      .nav-links.nav-open li:last-child {
-        border-bottom: none
-      }
-
-      .nav-mobile-cta {
-        display: block
-      }
-
-      .nav-mobile-cta .nav-cta {
-        width: 100%;
-        text-align: center;
-        display: block
-      }
-
-      .nav-cta {
-        display: none
-      }
-
-      .hamburger {
-        display: flex
-      }
-
-      section {
-        padding: 64px 20px
-      }
-
-      .hero-content {
-        grid-template-columns: 1fr;
-        gap: 40px;
-        padding: 60px 20px 40px
-      }
-
-      .hero-visual {
-        order: -1
-      }
-
-      .hero-phone-svg {
-        max-width: 260px
-      }
-
-      .floating-badge.one {
-        left: 5%
-      }
-
-      .floating-badge.two {
-        right: 5%
-      }
-
-      .problem-grid {
-        grid-template-columns: 1fr
-      }
-
-      .feature-row,
-      .feature-row.reverse {
-        grid-template-columns: 1fr;
-        gap: 32px;
-        direction: ltr
-      }
-
-      .stats-grid {
-        grid-template-columns: 1fr 1fr
-      }
-
-      body {
-        font-size: 16px
-      }
-
-      .stat-num {
-        font-size: clamp(36px, 8vw, 64px)
-      }
-
-      .steps {
-        grid-template-columns: 1fr
-      }
-
-      .proof-cards {
-        grid-template-columns: 1fr
-      }
-
-      .btn-primary,
-      .btn-outline {
-        width: 100%;
-        text-align: center
-      }
-
-      .hero-btns,
-      .cta-btns {
-        flex-direction: column
-      }
-
-      .form-row {
-        flex-direction: column
-      }
-
-      .hero-form .form-row {
-        flex-direction: row
-      }
-
-      .form-toggle button {
-        font-size: .85rem;
-        padding: 10px 12px
-      }
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Halal Seoul – Your Trusted K-Food Halal Scanner</title>
+  <meta name="description"
+    content="Scan any Korean food product and instantly know if it's Halal. AI-powered barcode scanner built for Muslims living in and visiting Korea.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+
+    :root {
+      --green: #0D7A55;
+      --green-light: #10B97A;
+      --green-soft: #E8F5EE;
+      --gold: #B8860B;
+      --gold-soft: #FDF6E3;
+      --bg: #FFFFFF;
+      --bg2: #F7F9FB;
+      --bg3: #F0F4F3;
+      --text: #1A2B1F;
+      --text2: #5A6B60;
+      --text3: #8A9B8F;
+      --border: #E2E8E4;
+      --radius: 16px;
+    }
+
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 15px !important
+    }
+
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 15px !important;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.85;
+      overflow-x: hidden
+    }
+
+
+    /* ──── NAV ──── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, .92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 32px
+    }
+
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px
+    }
+
+
+    .logo {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none
+    }
+
+
+    .logo span {
+      color: var(--green)
+    }
+
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none
+    }
+
+
+    .nav-links a {
+      color: var(--text2);
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: color .2s
+    }
+
+
+    .nav-links a:hover {
+      color: var(--green)
+    }
+
+
+    .nav-cta {
+      background: var(--green);
+      color: #fff;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform .15s, box-shadow .2s;
+      font-family: inherit
+    }
+
+
+    .nav-cta:hover {
+      transform: scale(1.03);
+      box-shadow: 0 4px 20px rgba(13, 122, 85, .25)
+    }
+
+
+    .nav-mobile-cta {
+      display: none
+    }
+
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px
+    }
+
+
+    .hamburger span {
+      width: 24px;
+      height: 2.5px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: .3s
+    }
+
+
+    .hamburger.open span:nth-child(1) {
+      transform: translateY(7.5px) rotate(45deg)
+    }
+
+
+    .hamburger.open span:nth-child(2) {
+      opacity: 0
+    }
+
+
+    .hamburger.open span:nth-child(3) {
+      transform: translateY(-7.5px) rotate(-45deg)
+    }
+
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px)
+      }
+
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+
+    /* ──── HERO ──── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 0;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(170deg, #FFFFFF 0%, #F0FAF5 40%, #FDF6E3 100%)
+    }
+
+
+    .hero-deco {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: .35;
+      pointer-events: none
+    }
+
+
+    .hero-deco.a {
+      background: var(--green-light);
+      top: -100px;
+      right: -100px
+    }
+
+
+    .hero-deco.b {
+      background: #C9A84C;
+      bottom: -120px;
+      left: -80px;
+      opacity: .2
+    }
+
+
+    .hero-content {
+      position: relative;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 80px 32px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 72px;
+      align-items: center
+    }
+
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--green-soft);
+      border: 1px solid rgba(13, 122, 85, .15);
+      border-radius: 99px;
+      padding: 8px 20px;
+      font-size: .85rem;
+      font-weight: 600;
+      letter-spacing: .04em;
+      color: var(--green);
+      margin-bottom: 24px
+    }
+
+
+    .hero-badge::before {
+      content: '☽';
+      font-size: 1rem
+    }
+
+
+    h1 {
+      font-size: clamp(52px, 6.5vw, 88px);
+      font-weight: 900;
+      line-height: 1.12;
+      margin-bottom: 24px;
+      letter-spacing: -.02em
+    }
+
+
+    h1 em {
+      font-style: normal;
+      color: var(--green)
+    }
+
+
+    .hero-sub {
+      font-size: 1.45rem;
+      font-weight: 500;
+      color: var(--text2);
+      margin-bottom: 40px;
+      max-width: 500px;
+      line-height: 1.85
+    }
+
+
+    .hero-btns {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap
+    }
+
+
+    .btn-primary {
+      background: var(--green);
+      color: #fff;
+      padding: 16px 32px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      border: none;
+      cursor: pointer;
+      transition: transform .15s, box-shadow .2s;
+      text-decoration: none;
+      display: inline-block;
+      font-family: inherit
+    }
+
+
+    .btn-primary:hover {
+      transform: scale(1.02);
+      box-shadow: 0 8px 32px rgba(13, 122, 85, .3)
+    }
+
+
+    .btn-outline {
+      background: transparent;
+      color: var(--green);
+      padding: 16px 32px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      border: 2px solid var(--green);
+      cursor: pointer;
+      transition: background .2s;
+      text-decoration: none;
+      display: inline-block
+    }
+
+
+    .btn-outline:hover {
+      background: var(--green-soft)
+    }
+
+
+    .hero-visual {
+      position: relative;
+      display: flex;
+      justify-content: center
+    }
+
+
+    /* ──── HERO CTA BLOCK ──── */
+    .hero-cta-block {
+      margin-top: 40px;
+      padding: 28px 32px;
+      background: var(--green-soft);
+      border: 1px solid rgba(13, 122, 85, .2);
+      border-radius: var(--radius)
+    }
+
+
+    .hero-cta-label {
+      font-size: 1rem;
+      color: var(--text2);
+      margin-bottom: 18px;
+      line-height: 1.75
+    }
+
+
+    .hero-cta-label strong {
+      color: var(--green);
+      font-weight: 800
+    }
+
+
+    .hero-cta-trust {
+      margin-top: 14px;
+      font-size: .82rem;
+      color: var(--text2);
+      line-height: 1.6;
+      letter-spacing: .01em
+    }
+
+
+    /* ──── HERO PHONE SVG ──── */
+    .hero-phone-svg {
+      width: 100%;
+      max-width: 380px;
+      border-radius: 24px;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, .12);
+      border: 1px solid var(--border)
+    }
+
+
+    .floating-badge {
+      position: absolute;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 18px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, .06);
+      font-size: .9rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      animation: float 3s ease-in-out infinite
+    }
+
+
+    .floating-badge.one {
+      top: 8%;
+      left: -5%
+    }
+
+
+    .floating-badge.two {
+      bottom: 12%;
+      right: -5%
+    }
+
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--green-light)
+    }
+
+
+    @keyframes float {
+
+
+      0%,
+      100% {
+        transform: translateY(0)
+      }
+
+
+      50% {
+        transform: translateY(-8px)
+      }
+    }
+
+
+    /* ──── SECTION BASE ──── */
+    section {
+      padding: 100px 32px
+    }
+
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto
+    }
+
+
+    .section-label {
+      font-size: .9rem;
+      font-weight: 700;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 12px
+    }
+
+
+    h2 {
+      font-size: clamp(38px, 5vw, 64px);
+      font-weight: 800;
+      margin-bottom: 14px;
+      line-height: 1.15;
+      letter-spacing: -.025em
+    }
+
+
+    .section-sub {
+      color: var(--text2);
+      font-size: 1.2rem;
+      max-width: 560px;
+      line-height: 1.8;
+      margin-top: 10px
+    }
+
+
+    /* ──── PROBLEM ──── */
+    #problem {
+      background: var(--bg2)
+    }
+
+
+    .problem-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 56px
+    }
+
+
+    .problem-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--border);
+      border-radius: var(--radius);
+      padding: 36px 28px;
+      transition: transform .25s, box-shadow .25s, border-left-color .2s
+    }
+
+
+    .problem-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 36px rgba(0, 0, 0, .06);
+      border-left-color: var(--green)
+    }
+
+
+    .problem-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      margin-bottom: 20px
+    }
+
+
+    .problem-card:nth-child(1) .problem-icon {
+      background: #FEE2E2;
+      color: #B91C1C
+    }
+
+
+    .problem-card:nth-child(2) .problem-icon {
+      background: #FEF3C7;
+      color: #B45309
+    }
+
+
+    .problem-card:nth-child(3) .problem-icon {
+      background: #DBEAFE;
+      color: #1D4ED8
+    }
+
+
+    .problem-card h3 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin-bottom: 12px
+    }
+
+
+    .problem-card p {
+      color: var(--text2);
+      font-size: 1.05rem;
+      line-height: 1.8
+    }
+
+
+    /* ──── FEATURES ──── */
+    #features {
+      background: var(--bg)
+    }
+
+
+    .feature-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 72px;
+      align-items: center;
+      margin-top: 72px
+    }
+
+
+    .feature-row.reverse {
+      direction: rtl
+    }
+
+
+    .feature-row.reverse>* {
+      direction: ltr
+    }
+
+
+    .feature-text h3 {
+      font-size: 1.7rem;
+      font-weight: 800;
+      margin-bottom: 16px
+    }
+
+
+    .feature-text p {
+      color: var(--text2);
+      line-height: 1.8;
+      margin-bottom: 18px;
+      font-size: 1.1rem
+    }
+
+
+    .feature-tag {
+      display: inline-block;
+      background: var(--green-soft);
+      color: var(--green);
+      border-radius: 8px;
+      padding: 6px 14px;
+      font-size: .82rem;
+      font-weight: 700;
+      letter-spacing: .04em;
+      margin-bottom: 14px
+    }
+
+
+    /* ──── FEATURE VISUAL: SCANNER ──── */
+    .feature-visual {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative
+    }
+
+
+    .scanner-mockup {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      width: 100%;
+      height: 100%;
+      background: var(--bg2)
+    }
+
+
+    .scanner-barcode-wrap {
+      position: relative;
+      width: 180px;
+      height: 120px;
+      background: #fff;
+      border-radius: 10px;
+      border: 1.5px solid var(--border);
+      overflow: hidden;
+      display: flex;
+      align-items: stretch;
+      padding: 12px 10px;
+      gap: 3px
+    }
+
+
+    .bc-line {
+      background: #1A2B1F;
+      border-radius: 1px;
+      flex: 1
+    }
+
+
+    .bc-line:nth-child(even) {
+      flex: 2
+    }
+
+
+    .bc-line:nth-child(3n) {
+      flex: 1.5
+    }
+
+
+    .scan-beam {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--green);
+      box-shadow: 0 0 8px rgba(13, 122, 85, .6);
+      animation: scanline 2s ease-in-out infinite;
+      top: 10%
+    }
+
+
+    @keyframes scanline {
+
+
+      0%,
+      100% {
+        top: 10%
+      }
+
+
+      50% {
+        top: 85%
+      }
+    }
+
+
+    .scanner-corner {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      border-color: var(--green);
+      border-style: solid;
+      border-width: 0
+    }
+
+
+    .scanner-corner.tl {
+      top: 4px;
+      left: 4px;
+      border-top-width: 2.5px;
+      border-left-width: 2.5px
+    }
+
+
+    .scanner-corner.tr {
+      top: 4px;
+      right: 4px;
+      border-top-width: 2.5px;
+      border-right-width: 2.5px
+    }
+
+
+    .scanner-corner.bl {
+      bottom: 4px;
+      left: 4px;
+      border-bottom-width: 2.5px;
+      border-left-width: 2.5px
+    }
+
+
+    .scanner-corner.br {
+      bottom: 4px;
+      right: 4px;
+      border-bottom-width: 2.5px;
+      border-right-width: 2.5px
+    }
+
+
+    .halal-result-badge {
+      background: var(--green-soft);
+      border: 2px solid var(--green);
+      border-radius: 10px;
+      padding: 8px 24px;
+      font-weight: 800;
+      font-size: 1.05rem;
+      color: var(--green);
+      letter-spacing: .05em
+    }
+
+
+    /* ──── FEATURE VISUAL: BAR CHART ──── */
+    .chart-mockup {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 32px 32px 48px;
+      gap: 10px;
+      background: var(--bg2)
+    }
+
+
+    .chart-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      max-width: 52px
+    }
+
+
+    .chart-bar {
+      width: 100%;
+      background: linear-gradient(to top, var(--green), var(--green-light));
+      border-radius: 6px 6px 2px 2px;
+      transition: opacity .2s
+    }
+
+
+    .chart-bar:hover {
+      opacity: .8
+    }
+
+
+    .chart-day {
+      font-size: .72rem;
+      font-weight: 600;
+      color: var(--text3)
+    }
+
+
+    /* ──── FEATURE VISUAL: ALT RECOMMENDATION ──── */
+    .alt-rec-mockup {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 28px 28px;
+      background: var(--bg2)
+    }
+
+
+    .alt-rejected {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #FEE2E2;
+      border: 1.5px solid #FCA5A5;
+      border-radius: 10px;
+      padding: 10px 16px;
+      width: 100%
+    }
+
+
+    .alt-x {
+      color: #B91C1C;
+      font-weight: 800;
+      font-size: 1rem
+    }
+
+
+    .alt-prod-name {
+      flex: 1;
+      font-weight: 600;
+      font-size: .88rem;
+      color: var(--text)
+    }
+
+
+    .alt-haram-badge {
+      background: #B91C1C;
+      color: #fff;
+      font-size: .68rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 6px;
+      letter-spacing: .05em
+    }
+
+
+    .alt-arrow {
+      font-size: 1.3rem;
+      color: var(--green);
+      line-height: 1
+    }
+
+
+    .alt-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: 100%
+    }
+
+
+    .alt-card {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #fff;
+      border: 1.5px solid var(--green);
+      border-radius: 10px;
+      padding: 10px 14px
+    }
+
+
+    .alt-card-icon {
+      font-size: 1.2rem
+    }
+
+
+    .alt-card-info {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between
+    }
+
+
+    .alt-card-name {
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--text)
+    }
+
+
+    .alt-halal-tag {
+      background: var(--green-soft);
+      color: var(--green);
+      font-size: .68rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 6px;
+      letter-spacing: .04em
+    }
+
+
+    /* ──── FEATURE VISUAL: COMMUNITY ──── */
+    .community-mockup {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 20px 24px;
+      background: var(--bg2)
+    }
+
+
+    .mini-review {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 14px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 12px
+    }
+
+
+    .mini-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--green);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: .85rem;
+      flex-shrink: 0
+    }
+
+
+    .mini-avatar.b {
+      background: #1D4ED8
+    }
+
+
+    .mini-avatar.c {
+      background: var(--gold)
+    }
+
+
+    .mini-review-body {
+      flex: 1
+    }
+
+
+    .mini-stars-sm {
+      color: var(--gold);
+      font-size: .7rem;
+      line-height: 1
+    }
+
+
+    .mini-review-text {
+      font-size: .73rem;
+      color: var(--text2);
+      margin-top: 2px;
+      line-height: 1.4
+    }
+
+
+    /* ──── STATS ──── */
+    #stats {
+      background: var(--green);
+      color: #fff;
+      text-align: center;
+      position: relative;
+      overflow: hidden
+    }
+
+
+    #stats::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cpath d='M40 0L80 40L40 80L0 40Z' fill='none' stroke='white' stroke-width='.4'/%3E%3Cpath d='M40 12L68 40L40 68L12 40Z' fill='none' stroke='white' stroke-width='.3'/%3E%3C/svg%3E");
+      opacity: .06
+    }
+
+
+    #stats .section-label {
+      color: rgba(255, 255, 255, .7)
+    }
+
+
+    #stats h2 {
+      color: #fff
+    }
+
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+      margin-top: 56px;
+      position: relative
+    }
+
+
+    .stat-card {
+      padding: 36px 16px
+    }
+
+
+    .stat-num {
+      font-size: clamp(52px, 8vw, 80px);
+      font-weight: 900;
+      display: block;
+      line-height: 1
+    }
+
+
+    .stat-label {
+      color: rgba(255, 255, 255, .75);
+      font-size: 1.1rem;
+      margin-top: 10px;
+      line-height: 1.5
+    }
+
+
+    .stat-label strong {
+      color: #fff;
+      font-size: 1.05rem
+    }
+
+
+    /* ──── HOW ──── */
+    #how {
+      background: var(--bg2)
+    }
+
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      margin-top: 56px
+    }
+
+
+    .step {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--border);
+      border-radius: var(--radius);
+      padding: 40px 28px;
+      text-align: center;
+      transition: transform .2s, box-shadow .2s, border-left-color .2s
+    }
+
+
+    .step:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 36px rgba(0, 0, 0, .06);
+      border-left-color: var(--green)
+    }
+
+
+    .step-num {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: var(--green);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.3rem;
+      margin: 0 auto 24px;
+      box-shadow: 0 8px 24px rgba(13, 122, 85, .2)
+    }
+
+
+    .step h3 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin-bottom: 12px
+    }
+
+
+    .step p {
+      color: var(--text2);
+      font-size: 1.05rem;
+      line-height: 1.8
+    }
+
+
+    /* ──── SOCIAL PROOF ──── */
+    #proof {
+      background: var(--bg)
+    }
+
+
+    .proof-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 40px
+    }
+
+
+    .proof-quote {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--green);
+      border-radius: var(--radius);
+      padding: 32px;
+      font-size: 1.4rem;
+      font-weight: 500;
+      color: var(--text2);
+      line-height: 1.9;
+      font-style: italic;
+      transition: transform .2s, border-left-color .2s
+    }
+
+
+    .proof-quote:hover {
+      transform: translateY(-2px);
+      border-left-color: var(--green-light)
+    }
+
+
+    .proof-meta {
+      margin-top: 18px;
+      font-size: .95rem;
+      font-weight: 700;
+      color: var(--green);
+      font-style: normal;
+      letter-spacing: .01em
+    }
+
+
+    .review-score {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-top: 28px;
+      flex-wrap: wrap
+    }
+
+
+    .stars {
+      color: var(--gold);
+      font-size: 1.5rem
+    }
+
+
+    .score-text {
+      font-weight: 700;
+      font-size: 1.1rem
+    }
+
+
+    .score-sub {
+      color: var(--text3);
+      font-size: .95rem
+    }
+
+
+    /* ──── REGISTER SECTION ──── */
+    #register {
+      text-align: center;
+      padding: 120px 32px;
+      background: linear-gradient(170deg, #F0FAF5 0%, #FDF6E3 50%, #FFFFFF 100%);
+      position: relative
+    }
+
+
+    #register h2 {
+      margin-bottom: 18px
+    }
+
+
+    #register > .container > p {
+      color: var(--text2);
+      font-size: 1.2rem;
+      max-width: 540px;
+      margin: 0 auto 32px;
+      line-height: 1.8
+    }
+
+
+    /* ──── FINAL CTA ──── */
+    #cta {
+      text-align: center;
+      padding: 120px 32px;
+      background: linear-gradient(170deg, #F0FAF5 0%, #FDF6E3 50%, #FFFFFF 100%);
+      position: relative
+    }
+
+
+    #cta h2 {
+      font-size: clamp(30px, 4.5vw, 52px);
+      margin-bottom: 18px
+    }
+
+
+    #cta p {
+      color: var(--text2);
+      margin-bottom: 40px;
+      font-size: 1.15rem;
+      max-width: 540px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.8
+    }
+
+
+    .trust-line {
+      margin-top: 20px;
+      font-size: .9rem;
+      color: var(--text3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px
+    }
+
+
+    /* ──── SIGNUP FORM ──── */
+    .signup-form {
+      max-width: 480px;
+      margin: 0 auto
+    }
+
+
+    .form-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 12px
+    }
+
+
+    .form-row input {
+      flex: 1;
+      padding: 16px 20px;
+      border-radius: 10px;
+      border: 2px solid var(--border);
+      font-size: 1rem;
+      font-family: inherit;
+      background: #fff;
+      color: var(--text);
+      transition: border-color .2s, box-shadow .2s;
+      outline: none
+    }
+
+
+    .form-row input:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 4px rgba(13, 122, 85, .1)
+    }
+
+
+    .form-row input::placeholder {
+      color: var(--text3)
+    }
+
+
+    .form-submit {
+      width: 100%;
+      padding: 16px 32px;
+      border-radius: 10px;
+      background: var(--green);
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      transition: transform .15s, box-shadow .2s
+    }
+
+
+    .form-submit:hover {
+      transform: scale(1.02);
+      box-shadow: 0 8px 32px rgba(13, 122, 85, .3)
+    }
+
+
+    .form-submit:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+      transform: none
+    }
+
+
+    .coupon-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--gold-soft);
+      border: 1px solid rgba(184, 134, 11, .2);
+      border-radius: 99px;
+      padding: 8px 20px;
+      font-size: .88rem;
+      font-weight: 600;
+      color: var(--gold);
+      margin-bottom: 24px
+    }
+
+
+    .form-success {
+      display: none;
+      background: var(--green-soft);
+      border: 2px solid var(--green);
+      border-radius: var(--radius);
+      padding: 36px;
+      text-align: center;
+      max-width: 480px;
+      margin: 0 auto
+    }
+
+
+    .form-success.show {
+      display: block;
+      animation: popIn .4s ease
+    }
+
+
+    .form-success h3 {
+      color: var(--green);
+      font-size: 1.3rem;
+      margin-bottom: 8px
+    }
+
+
+    .form-success p {
+      color: var(--text2);
+      font-size: 1rem
+    }
+
+
+    .form-success .coupon-code {
+      display: inline-block;
+      background: #fff;
+      border: 2px dashed var(--green);
+      border-radius: 10px;
+      padding: 12px 28px;
+      font-size: 1.2rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+      color: var(--green);
+      margin: 16px 0
+    }
+
+
+    .copy-coupon-btn {
+      display: inline-block;
+      margin-top: 4px;
+      padding: 7px 20px;
+      background: transparent;
+      border: 1.5px solid var(--green);
+      border-radius: 8px;
+      color: var(--green);
+      font-size: .88rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background .2s, color .2s
+    }
+
+
+    .copy-coupon-btn:hover {
+      background: var(--green-soft)
+    }
+
+
+    .form-toggle {
+      display: flex;
+      background: var(--bg2);
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      margin-bottom: 16px
+    }
+
+
+    .form-toggle button {
+      flex: 1;
+      padding: 12px 16px;
+      border: none;
+      background: transparent;
+      font-size: .95rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      color: var(--text2);
+      transition: all .2s
+    }
+
+
+    .form-toggle button.active {
+      background: var(--green);
+      color: #fff
+    }
+
+
+    @keyframes popIn {
+      from {
+        opacity: 0;
+        transform: scale(.95)
+      }
+
+
+      to {
+        opacity: 1;
+        transform: scale(1)
+      }
+    }
+
+
+    /* ──── HERO FORM (inline) ──── */
+    .hero-form {
+      max-width: 420px
+    }
+
+
+    .hero-form .form-row {
+      margin-bottom: 0
+    }
+
+
+    .hero-form .form-row input {
+      padding: 14px 18px;
+      font-size: .95rem
+    }
+
+
+    .hero-form .inline-submit {
+      padding: 14px 24px;
+      border-radius: 10px;
+      background: var(--green);
+      color: #fff;
+      font-size: .95rem;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      white-space: nowrap;
+      transition: transform .15s, box-shadow .2s
+    }
+
+
+    .hero-form .inline-submit:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 20px rgba(13, 122, 85, .25)
+    }
+
+
+    .hero-form .form-hint {
+      font-size: .82rem;
+      color: var(--text3);
+      margin-top: 8px
+    }
+
+
+    .hero-form .form-hint strong {
+      color: var(--gold);
+      font-weight: 700
+    }
+
+
+    .hero-form .mini-success {
+      display: none;
+      background: var(--green-soft);
+      border-radius: 10px;
+      padding: 16px;
+      text-align: center
+    }
+
+
+    .hero-form .mini-success.show {
+      display: block;
+      animation: popIn .4s ease
+    }
+
+
+    .hero-form .mini-success p {
+      font-weight: 600;
+      color: var(--green);
+      font-size: .95rem;
+      margin: 0
+    }
+
+
+    .coming-soon-pill {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--green), var(--green-light));
+      color: #fff;
+      border-radius: 99px;
+      padding: 4px 14px;
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      margin-left: 8px;
+      vertical-align: middle
+    }
+
+
+    /* ──── FOOTER ──── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 48px 32px;
+      text-align: center;
+      color: var(--text2);
+      font-size: .9rem;
+      background: var(--bg2)
+    }
+
+
+    footer a {
+      color: var(--green);
+      text-decoration: none;
+      font-weight: 500
+    }
+
+
+    footer a:hover {
+      text-decoration: underline
+    }
+
+
+    .footer-logo {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 8px
+    }
+
+
+    .footer-logo span {
+      color: var(--green)
+    }
+
+
+    /* ──── SCROLL ANIMATION ──── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .6s ease, transform .6s ease
+    }
+
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0)
+    }
+
+
+    /* ──── MOBILE ──── */
+    @media(max-width:768px) {
+      nav {
+        padding: 0 20px
+      }
+
+
+      .nav-links {
+        display: none
+      }
+
+
+      .nav-links.nav-open {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        position: absolute;
+        top: 72px;
+        left: 0;
+        right: 0;
+        background: rgba(255, 255, 255, .97);
+        backdrop-filter: blur(16px);
+        border-bottom: 1px solid var(--border);
+        padding: 8px 20px 20px;
+        z-index: 99;
+        animation: slideDown .25s ease
+      }
+
+
+      .nav-links.nav-open li {
+        border-bottom: 1px solid var(--border);
+        padding: 12px 0
+      }
+
+
+      .nav-links.nav-open li:last-child {
+        border-bottom: none
+      }
+
+
+      .nav-mobile-cta {
+        display: block
+      }
+
+
+      .nav-mobile-cta .nav-cta {
+        width: 100%;
+        text-align: center;
+        display: block
+      }
+
+
+      .nav-cta {
+        display: none
+      }
+
+
+      .hamburger {
+        display: flex
+      }
+
+
+      section {
+        padding: 64px 20px
+      }
+
+
+      .hero-content {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        padding: 60px 20px 40px
+      }
+
+
+      .hero-visual {
+        order: -1
+      }
+
+
+      .hero-phone-svg {
+        max-width: 260px
+      }
+
+
+      .floating-badge.one {
+        left: 5%
+      }
+
+
+      .floating-badge.two {
+        right: 5%
+      }
+
+
+      .problem-grid {
+        grid-template-columns: 1fr
+      }
+
+
+      .feature-row,
+      .feature-row.reverse {
+        grid-template-columns: 1fr;
+        gap: 32px;
+        direction: ltr
+      }
+
+
+      .stats-grid {
+        grid-template-columns: 1fr 1fr
+      }
+
+
+      body {
+        font-size: 16px
+      }
+
+
+      .stat-num {
+        font-size: clamp(36px, 8vw, 64px)
+      }
+
+
+      .steps {
+        grid-template-columns: 1fr
+      }
+
+
+      .proof-cards {
+        grid-template-columns: 1fr
+      }
+
+
+      .btn-primary,
+      .btn-outline {
+        width: 100%;
+        text-align: center
+      }
+
+
+      .hero-btns,
+      .cta-btns {
+        flex-direction: column
+      }
+
+
+      .form-row {
+        flex-direction: column
+      }
+
+
+      .hero-form .form-row {
+        flex-direction: row
+      }
+
+
+      .form-toggle button {
+        font-size: .85rem;
+        padding: 10px 12px
+      }
+    }
+  </style>
 </head>
+
 
 <body>
 
-  <!-- HERO -->
-  <section id="hero">
-    <div class="hero-deco a"></div>
-    <div class="hero-deco b"></div>
-    <div class="hero-content">
-      <div class="hero-text fade-in">
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-deco a"></div>
+    <div class="hero-deco b"></div>
+    <div class="hero-content">
+      <div class="hero-text fade-in">
 <h1>Scan. Check.<br><em>Eat Halal</em><br>in Korea.</h1>
-        <p class="hero-sub">Know instantly whether any K-Food product is Halal, Haram, or Mashbooh — one scan, no guesswork. Built for Muslims who live, study, and travel in Korea.</p>
-        <div class="hero-cta-block">
-          <p class="hero-cta-label">
-            🎁 <strong>Join the beta waitlist and unlock a free premium coupon</strong> — redeemable from day one. Limited spots available.
-          </p>
-          <a class="btn-primary" href="#register" onclick="document.getElementById('register').scrollIntoView({behavior:'smooth'});return false;" style="display:block;text-align:center;">
-            Join the Beta Waitlist
-          </a>
-          <p class="hero-cta-trust">Free to join · No card needed · Limited beta spots</p>
-        </div>
-      </div>
-      <div class="hero-visual fade-in">
-        <svg class="hero-phone-svg" viewBox="0 0 320 500" xmlns="http://www.w3.org/2000/svg"
-          role="img" aria-label="Halal Seoul app showing barcode scan result">
-          <rect width="320" height="500" rx="42" fill="#1A2B1F"/>
-          <rect x="12" y="26" width="296" height="448" rx="30" fill="#F0F4F3"/>
-          <rect x="118" y="16" width="84" height="18" rx="9" fill="#0F1A13"/>
-          <rect x="12" y="26" width="296" height="82" rx="0" fill="#0D7A55"/>
-          <rect x="12" y="26" width="296" height="56" rx="30" fill="#0D7A55"/>
-          <text x="160" y="80" text-anchor="middle" fill="white"
-            font-family="'Plus Jakarta Sans',sans-serif" font-size="19" font-weight="bold">Halal Seoul</text>
-          <rect x="36" y="128" width="248" height="164" rx="14" fill="white" stroke="#E2E8E4" stroke-width="1.5"/>
-          <g fill="#1A2B1F" opacity="0.75">
-            <rect x="52" y="146" width="4" height="112"/><rect x="61" y="146" width="7" height="112"/>
-            <rect x="74" y="146" width="3" height="112"/><rect x="82" y="146" width="6" height="112"/>
-            <rect x="94" y="146" width="4" height="112"/><rect x="104" y="146" width="8" height="112"/>
-            <rect x="118" y="146" width="3" height="112"/><rect x="126" y="146" width="5" height="112"/>
-            <rect x="137" y="146" width="7" height="112"/><rect x="150" y="146" width="3" height="112"/>
-            <rect x="158" y="146" width="6" height="112"/><rect x="170" y="146" width="3" height="112"/>
-            <rect x="178" y="146" width="8" height="112"/><rect x="192" y="146" width="4" height="112"/>
-            <rect x="201" y="146" width="6" height="112"/><rect x="213" y="146" width="3" height="112"/>
-            <rect x="221" y="146" width="7" height="112"/><rect x="234" y="146" width="4" height="112"/>
-            <rect x="243" y="146" width="5" height="112"/><rect x="254" y="146" width="3" height="112"/>
-            <rect x="262" y="146" width="6" height="112"/>
-          </g>
-          <line x1="44" y1="165" x2="276" y2="165" stroke="#0D7A55" stroke-width="2.5" opacity="0.9">
-            <animate attributeName="y1" values="148;278;148" dur="2s" repeatCount="indefinite" calcMode="spline"
-              keySplines="0.42 0 0.58 1; 0.42 0 0.58 1"/>
-            <animate attributeName="y2" values="148;278;148" dur="2s" repeatCount="indefinite" calcMode="spline"
-              keySplines="0.42 0 0.58 1; 0.42 0 0.58 1"/>
-          </line>
-          <path d="M46,146 v18 M46,146 h18" stroke="#0D7A55" stroke-width="3" fill="none" stroke-linecap="round"/>
-          <path d="M274,146 v18 M274,146 h-18" stroke="#0D7A55" stroke-width="3" fill="none" stroke-linecap="round"/>
-          <path d="M46,290 v-18 M46,290 h18" stroke="#0D7A55" stroke-width="3" fill="none" stroke-linecap="round"/>
-          <path d="M274,290 v-18 M274,290 h-18" stroke="#0D7A55" stroke-width="3" fill="none" stroke-linecap="round"/>
-          <rect x="36" y="316" width="248" height="124" rx="16" fill="white" stroke="#E2E8E4" stroke-width="1.5"/>
-          <circle cx="82" cy="378" r="27" fill="#0D7A55"/>
-          <text x="82" y="387" text-anchor="middle" fill="white" font-size="24"
-            font-family="sans-serif" font-weight="bold">✓</text>
-          <line x1="122" y1="338" x2="122" y2="418" stroke="#E2E8E4" stroke-width="1"/>
-          <text x="202" y="368" text-anchor="middle" fill="#0D7A55"
-            font-family="'Plus Jakarta Sans',sans-serif" font-size="26" font-weight="bold">HALAL</text>
-          <text x="202" y="392" text-anchor="middle" fill="#5A6B60"
-            font-family="'Plus Jakarta Sans',sans-serif" font-size="13">Certified Safe to Eat</text>
-          <rect x="120" y="468" width="80" height="10" rx="5" fill="#3A4B40" opacity="0.25"/>
-        </svg>
-        <div class="floating-badge one">
-          <div class="dot"></div>Halal Verified ✓
-        </div>
-        <div class="floating-badge two">🚀 Launching 2026</div>
-      </div>
-    </div>
-  </section>
+        <p class="hero-sub">Know instantly whether any K-Food product is Halal, Haram, or Mashbooh — one scan, no guesswork. Built for Muslims who live, study, and travel in Korea.</p>
+        <div class="hero-cta-block">
+          <p class="hero-cta-label">
+            🎁 <strong>Join the beta waitlist and unlock a free premium coupon</strong> — redeemable from day one. Limited spots available.
+          </p>
+          <a class="btn-primary" href="#register" onclick="document.getElementById('register').scrollIntoView({behavior:'smooth'});return false;" style="display:block;text-align:center;">
+            Join the Beta Waitlist
+          </a>
+          <p class="hero-cta-trust">Free to join · No card needed · Limited beta spots</p>
+        </div>
+      </div>
+      <div class="hero-visual fade-in">
+        <svg class="hero-phone-svg" viewBox="0 0 320 500" xmlns="http://www.w3.org/2000/svg"
+          role="img" aria-label="Halal Seoul app showing barcode scan result">
+          <rect width="320" height="500" rx="42" fill="#1A2B1F"/>
+          <rect x="12" y="26" width="296" height="448" rx="30" fill="#F0F4F3"/>
+          <rect x="118" y="16" width="84" height="18" rx="9" fill="#0F1A13"/>
+          <rect x="12" y="26" width="296" height="82" rx="0" fill="#0D7A55"/>
+          <rect x="12" y="26" width="296" height="56" rx="30" fill="#0D7A55"/>
+          <text x="160" y="80" text-anchor="middle" fill="white"
+            font-family="'Plus Jakarta Sans',sans-serif" font-size="19" font-weight="bold">Halal Seoul</text>
+          <rect x="36" y="128" width="248" height="164" rx="14" fill="white" stroke="#E2E8E4" stroke-width="1.5"/>
+          <g fill="#1A2B1F" opacity="0.75">
+            <rect x="52" y="146" width="4" height="112"/><rect x="61" y="146" width="7" height="112"/>
+            <rect x="74" y="146" width="3" height="112"/><rect x="82" y="146" width="6" height="112"/>
+            <rect x="94" y="146" width="4" height="112"/><rect x="104" y="146" width="8" height="112"/>
+            <rect x="118" y="146" width="3" height="112"/><rect x="126" y="146" width="5" height="112"/>
+            <rect x="137" y="146" width="7" height="112"/><rect x="150" y="146" width="3" height="112"/>
+            <rect x="158" y="146" width="6" height="112"/><rect x="170" y="146" width="3" height="112"/>
+            <rect x="178" y="146" width="8" height="112"/><rect x="192" y="146" width="4" height="112"/>
+            <rect x="201" y="146" width="6" height="112"/><rect x="213" y="146" width="3" height="112"/>
+            <rect x="221" y="146" width="7" height="112"/><rect x="234" y="146" width="4" height="112"/>
+            <rect x="243" y="146" width="5" height="112"/><rect x="254" y="146" width="3" height="112"/>
+            <rect x="262" y="146" width="6" height="112"/>
+          </g>
+          <line x1="44" y1="165" x2="276" y2="165" stroke="#0D7A55" stroke-width="2.5" opacity="0.9">
+            <animate attributeName="y1" values="148;278;148" dur="2s" repeatCount="indefinite" calcMode="spline"
+              keySplines="0.42 0 0.58 1; 0.42 0 0.58 1"/>
+            <animate attributeName="y2" values="148;278;148" dur="2s" repeatCount="indefinite" calcMode="spline"
+              keySplines="0.42 0 0.58 1; 0.42 0 0.58 1"/>
+          </line>
+          <path d="M46,146 v18 M46,146 h18" stroke="#0D7A55" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path d="M274,146 v18 M274,146 h-18" stroke="#0D7A55" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path d="M46,290 v-18 M46,290 h18" stroke="#0D7A55" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path d="M274,290 v-18 M274,290 h-18" stroke="#0D7A55" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <rect x="36" y="316" width="248" height="124" rx="16" fill="white" stroke="#E2E8E4" stroke-width="1.5"/>
+          <circle cx="82" cy="378" r="27" fill="#0D7A55"/>
+          <text x="82" y="387" text-anchor="middle" fill="white" font-size="24"
+            font-family="sans-serif" font-weight="bold">✓</text>
+          <line x1="122" y1="338" x2="122" y2="418" stroke="#E2E8E4" stroke-width="1"/>
+          <text x="202" y="368" text-anchor="middle" fill="#0D7A55"
+            font-family="'Plus Jakarta Sans',sans-serif" font-size="26" font-weight="bold">HALAL</text>
+          <text x="202" y="392" text-anchor="middle" fill="#5A6B60"
+            font-family="'Plus Jakarta Sans',sans-serif" font-size="13">Certified Safe to Eat</text>
+          <rect x="120" y="468" width="80" height="10" rx="5" fill="#3A4B40" opacity="0.25"/>
+        </svg>
+        <div class="floating-badge one">
+          <div class="dot"></div>Halal Verified ✓
+        </div>
+        <div class="floating-badge two">🚀 Launching 2026</div>
+      </div>
+    </div>
+  </section>
 
-  <!-- PROBLEM -->
-  <section id="problem">
-    <div class="container fade-in">
-      <div class="section-label">The Problem</div>
-      <h2>Sound <strong style="font-weight:800;color:var(--green)">familiar?</strong></h2>
-      <p class="section-sub">If you're a Muslim in Korea, you know this feeling all too well.</p>
-      <div class="problem-grid">
-        <div class="problem-card fade-in">
-          <div class="problem-icon">🔍</div>
-          <h3>Everything is in Korean</h3>
-          <p>Every ingredient list is written in Korean — and one mistranslation can mean the difference between Halal and Haram. You shouldn't need a dictionary just to buy groceries.</p>
-        </div>
-        <div class="problem-card fade-in">
-          <div class="problem-icon">😰</div>
-          <h3>K-Food with no Halal guide</h3>
-          <p>K-Food is everywhere, but Halal certification is rare and hard to spot. Every trip to the supermarket becomes a stressful gamble.</p>
-        </div>
-        <div class="problem-card fade-in">
-          <div class="problem-icon">📍</div>
-          <h3>Hard to find Halal spots</h3>
-          <p>Halal restaurant info is scattered across outdated blogs and group chats — rarely in English, almost never up to date.</p>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- FEATURES -->
-  <section id="features">
-    <div class="container">
-      <div class="section-label fade-in">Core Features</div>
-      <h2 class="fade-in">Here's how Halal Seoul <strong style="font-weight:800;color:var(--green)">solves</strong> it.</h2>
+  <!-- PROBLEM -->
+  <section id="problem">
+    <div class="container fade-in">
+      <div class="section-label">The Problem</div>
+      <h2>Sound <strong style="font-weight:800;color:var(--green)">familiar?</strong></h2>
+      <p class="section-sub">If you're a Muslim in Korea, you know this feeling all too well.</p>
+      <div class="problem-grid">
+        <div class="problem-card fade-in">
+          <div class="problem-icon">🔍</div>
+          <h3>Everything is in Korean</h3>
+          <p>Every ingredient list is written in Korean — and one mistranslation can mean the difference between Halal and Haram. You shouldn't need a dictionary just to buy groceries.</p>
+        </div>
+        <div class="problem-card fade-in">
+          <div class="problem-icon">😰</div>
+          <h3>K-Food with no Halal guide</h3>
+          <p>K-Food is everywhere, but Halal certification is rare and hard to spot. Every trip to the supermarket becomes a stressful gamble.</p>
+        </div>
+        <div class="problem-card fade-in">
+          <div class="problem-icon">📍</div>
+          <h3>Hard to find Halal spots</h3>
+          <p>Halal restaurant info is scattered across outdated blogs and group chats — rarely in English, almost never up to date.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-      <!-- Feature 1: Scanner -->
-      <div class="feature-row fade-in">
-        <div class="feature-text">
-          <span class="feature-tag">AI Scanner</span>
-          <h3>Scan Any Barcode. Know in Seconds.</h3>
-          <p>Point your camera at any product and get an instant Halal, Haram, or Mashbooh verdict — powered by AI. No more squinting at Korean labels or second-guessing ingredients.</p>
-        </div>
-        <div class="feature-visual scanner-mockup">
-          <div class="scanner-barcode-wrap">
-            <div class="bc-line"></div><div class="bc-line"></div><div class="bc-line"></div>
-            <div class="bc-line"></div><div class="bc-line"></div><div class="bc-line"></div>
-            <div class="bc-line"></div><div class="bc-line"></div><div class="bc-line"></div>
-            <div class="bc-line"></div><div class="bc-line"></div><div class="bc-line"></div>
-            <div class="bc-line"></div><div class="bc-line"></div><div class="bc-line"></div>
-            <div class="bc-line"></div><div class="bc-line"></div><div class="bc-line"></div>
-            <div class="scan-beam"></div>
-            <div class="scanner-corner tl"></div>
-            <div class="scanner-corner tr"></div>
-            <div class="scanner-corner bl"></div>
-            <div class="scanner-corner br"></div>
-          </div>
-          <div class="halal-result-badge">✓ HALAL</div>
-        </div>
-      </div>
 
-      <!-- Feature 2: Alternative Recommendation -->
-      <div class="feature-row reverse fade-in">
-        <div class="feature-text">
-          <span class="feature-tag">Alternative Finder</span>
-          <h3>Haram? Get a Halal Alternative Instantly</h3>
-          <p>When a product doesn't pass, we don't just stop there. Halal Seoul instantly surfaces verified Halal alternatives in the same category — so you never leave the store empty-handed.</p>
-        </div>
-        <div class="feature-visual alt-rec-mockup">
-          <div class="alt-rejected">
-            <span class="alt-x">✕</span>
-            <span class="alt-prod-name">신라면 (Shin Ramyun)</span>
-            <span class="alt-haram-badge">HARAM</span>
-          </div>
-          <div class="alt-arrow">↓</div>
-          <div class="alt-cards">
-            <div class="alt-card">
-              <span class="alt-card-icon">🍜</span>
-              <div class="alt-card-info">
-                <span class="alt-card-name">Ottogi Halal Ramen</span>
-                <span class="alt-halal-tag">✓ HALAL</span>
-              </div>
-            </div>
-            <div class="alt-card">
-              <span class="alt-card-icon">🍜</span>
-              <div class="alt-card-info">
-                <span class="alt-card-name">Paldo Bibim Myun (Halal)</span>
-                <span class="alt-halal-tag">✓ HALAL</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+  <!-- FEATURES -->
+  <section id="features">
+    <div class="container">
+      <div class="section-label fade-in">Core Features</div>
+      <h2 class="fade-in">Here's how Halal Seoul <strong style="font-weight:800;color:var(--green)">solves</strong> it.</h2>
 
-      <!-- Feature 3: Community -->
-      <div class="feature-row fade-in">
-        <div class="feature-text">
-          <span class="feature-tag">Community</span>
-          <h3>Find Your Halal Community in Korea</h3>
-          <p>Discover restaurants, share product finds, and exchange tips with over 1,000 Muslims living and studying across Korea. The more we share, the easier Halal living gets.</p>
-        </div>
-        <div class="feature-visual community-mockup">
-          <div class="mini-review">
-            <div class="mini-avatar">A</div>
-            <div class="mini-review-body">
-              <div class="mini-stars-sm">★★★★★</div>
-              <div class="mini-review-text">Finally I can shop at CU without stress!</div>
-            </div>
-          </div>
-          <div class="mini-review">
-            <div class="mini-avatar b">R</div>
-            <div class="mini-review-body">
-              <div class="mini-stars-sm">★★★★★</div>
-              <div class="mini-review-text">Scanned 50+ products — results are spot on.</div>
-            </div>
-          </div>
-          <div class="mini-review">
-            <div class="mini-avatar c">F</div>
-            <div class="mini-review-body">
-              <div class="mini-stars-sm">★★★★★</div>
-              <div class="mini-review-text">Best app for Muslims living in Seoul.</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- STATS -->
-  <section id="stats">
-    <div class="container fade-in">
-      <div class="section-label">Traction</div>
-      <h2>Built on real <strong style="font-weight:800;color:#fff">trust</strong></h2>
-      <div class="stats-grid">
-        <div class="stat-card fade-in">
-          <span class="stat-num" data-target="45">0</span>
-          <div class="stat-label">Beta Users · Avg. Rating <strong>4.8 / 5</strong></div>
-        </div>
-        <div class="stat-card fade-in">
-          <span class="stat-num">₩2.6M</span>
-          <div class="stat-label">Seed Funding · via HUFS Grant</div>
-        </div>
-        <div class="stat-card fade-in">
-          <span class="stat-num" data-target="2000">0</span>
-          <div class="stat-label">Projected Monthly Users<br><strong>by Q4 2026</strong></div>
-        </div>
-        <div class="stat-card fade-in">
-          <span class="stat-num" data-target="1000">0</span>
-          <div class="stat-label">Muslim Community<br><strong>Partners</strong></div>
-        </div>
-      </div>
-      <p style="opacity:.55;font-size:.78rem;margin-top:20px;color:var(--text3)">
-        * Beta metrics as of early 2026. MAU shown is a forward projection.
-      </p>
-    </div>
-  </section>
+      <!-- Feature 1: Scanner -->
+      <div class="feature-row fade-in">
+        <div class="feature-text">
+          <span class="feature-tag">AI Scanner</span>
+          <h3>Scan Any Barcode. Know in Seconds.</h3>
+          <p>Point your camera at any product and get an instant Halal, Haram, or Mashbooh verdict — powered by AI. No more squinting at Korean labels or second-guessing ingredients.</p>
+        </div>
+        <div class="feature-visual scanner-mockup">
+          <div class="scanner-barcode-wrap">
+            <div class="bc-line"></div><div class="bc-line"></div><div class="bc-line"></div>
+            <div class="bc-line"></div><div class="bc-line"></div><div class="bc-line"></div>
+            <div class="bc-line"></div><div class="bc-line"></div><div class="bc-line"></div>
+            <div class="bc-line"></div><div class="bc-line"></div><div class="bc-line"></div>
+            <div class="bc-line"></div><div class="bc-line"></div><div class="bc-line"></div>
+            <div class="bc-line"></div><div class="bc-line"></div><div class="bc-line"></div>
+            <div class="scan-beam"></div>
+            <div class="scanner-corner tl"></div>
+            <div class="scanner-corner tr"></div>
+            <div class="scanner-corner bl"></div>
+            <div class="scanner-corner br"></div>
+          </div>
+          <div class="halal-result-badge">✓ HALAL</div>
+        </div>
+      </div>
 
-  <!-- HOW IT WORKS -->
-  <section id="how">
-    <div class="container fade-in">
-      <div class="section-label">How It Works</div>
-      <h2><strong style="font-weight:800;color:var(--green)">Three steps.</strong> That's it.</h2>
-      <div class="steps">
-        <div class="step fade-in">
-          <div class="step-num">1</div>
-          <h3>Open & Scan</h3>
-          <p>Open the app and point your camera at any barcode on a Korean food product.</p>
-        </div>
-        <div class="step fade-in">
-          <div class="step-num">2</div>
-          <h3>AI Checks Instantly</h3>
-          <p>Our AI cross-checks the ingredients against our Halal database and delivers a clear verdict in seconds.</p>
-        </div>
-        <div class="step fade-in">
-          <div class="step-num">3</div>
-          <h3>Shop with Confidence</h3>
-          <p>Add it to your cart and move on. Share the find with your community. Enjoy K-Food the way it should be.</p>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- SOCIAL PROOF -->
-  <section id="proof">
-    <div class="container fade-in">
-      <div class="section-label">What Users Say</div>
-      <h2>Real people. <strong style="font-weight:800;color:var(--green)">Real results.</strong></h2>
-      <div class="review-score">
-        <span class="stars">★★★★★</span>
-        <span class="score-text">4.8 / 5.0</span>
-        <span class="score-sub">— 45 beta users</span>
-      </div>
-      <div class="proof-cards">
-        <div class="proof-quote fade-in">
-          "I used to spend 30 minutes in every convenience store just reading labels. With Halal Seoul, I scan and go. It genuinely changed my daily life in Korea."
-          <div class="proof-meta">— Beta user, Malaysia</div>
-        </div>
-        <div class="proof-quote fade-in">
-          "I love K-Food but always worried about what I was actually eating. Now I explore Korean snacks freely, without any anxiety. Every Muslim in Korea needs this."
-          <div class="proof-meta">— Exchange student at HUFS, Indonesia</div>
-        </div>
-        <div class="proof-quote fade-in">
-          "Finally, an app that actually gets what Muslims in Korea need. The scan results are clear and I trust them completely."
-          <div class="proof-meta">— Working professional, Saudi Arabia</div>
-        </div>
-      </div>
-    </div>
-  </section>
+      <!-- Feature 2: Alternative Recommendation -->
+      <div class="feature-row reverse fade-in">
+        <div class="feature-text">
+          <span class="feature-tag">Alternative Finder</span>
+          <h3>Haram? Get a Halal Alternative Instantly</h3>
+          <p>When a product doesn't pass, we don't just stop there. Halal Seoul instantly surfaces verified Halal alternatives in the same category — so you never leave the store empty-handed.</p>
+        </div>
+        <div class="feature-visual alt-rec-mockup">
+          <div class="alt-rejected">
+            <span class="alt-x">✕</span>
+            <span class="alt-prod-name">신라면 (Shin Ramyun)</span>
+            <span class="alt-haram-badge">HARAM</span>
+          </div>
+          <div class="alt-arrow">↓</div>
+          <div class="alt-cards">
+            <div class="alt-card">
+              <span class="alt-card-icon">🍜</span>
+              <div class="alt-card-info">
+                <span class="alt-card-name">Ottogi Halal Ramen</span>
+                <span class="alt-halal-tag">✓ HALAL</span>
+              </div>
+            </div>
+            <div class="alt-card">
+              <span class="alt-card-icon">🍜</span>
+              <div class="alt-card-info">
+                <span class="alt-card-name">Paldo Bibim Myun (Halal)</span>
+                <span class="alt-halal-tag">✓ HALAL</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-  <!-- REGISTER -->
-  <section id="register">
-    <div class="container fade-in">
-      <div class="section-label">Early Access</div>
-      <h2>Be the <em style="font-style:normal;color:var(--green)">first</em> to try Halal Seoul.</h2>
-      <p>Join the beta waitlist and receive a <strong>free premium coupon</strong> — valid from day one. Limited spots available.</p>
-      <div class="coupon-badge">🎁 Free Premium Coupon for Early Testers</div>
 
-      <div class="signup-form" id="regFormWrap">
-        <div class="form-toggle" id="regToggle">
-          <button class="active" onclick="switchRegMode('email',this)">✉️ Email</button>
-          <button onclick="switchRegMode('phone',this)">📱 Phone</button>
-        </div>
-        <div class="form-row">
-          <input type="email" id="regInput" placeholder="your@email.com" required>
-        </div>
-        <button class="form-submit" id="regSubmit" onclick="submitRegForm()">Join Beta Waitlist — It's Free</button>
-        <div class="trust-line">No spam · Unsubscribe anytime · English · Arabic · Malay · Korean</div>
-      </div>
+      <!-- Feature 3: Community -->
+      <div class="feature-row fade-in">
+        <div class="feature-text">
+          <span class="feature-tag">Community</span>
+          <h3>Find Your Halal Community in Korea</h3>
+          <p>Discover restaurants, share product finds, and exchange tips with over 1,000 Muslims living and studying across Korea. The more we share, the easier Halal living gets.</p>
+        </div>
+        <div class="feature-visual community-mockup">
+          <div class="mini-review">
+            <div class="mini-avatar">A</div>
+            <div class="mini-review-body">
+              <div class="mini-stars-sm">★★★★★</div>
+              <div class="mini-review-text">Finally I can shop at CU without stress!</div>
+            </div>
+          </div>
+          <div class="mini-review">
+            <div class="mini-avatar b">R</div>
+            <div class="mini-review-body">
+              <div class="mini-stars-sm">★★★★★</div>
+              <div class="mini-review-text">Scanned 50+ products — results are spot on.</div>
+            </div>
+          </div>
+          <div class="mini-review">
+            <div class="mini-avatar c">F</div>
+            <div class="mini-review-body">
+              <div class="mini-stars-sm">★★★★★</div>
+              <div class="mini-review-text">Best app for Muslims living in Seoul.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-      <div class="form-success" id="regSuccess">
-        <h3>🎉 You're in!</h3>
-        <p>Pre-registration complete. Here's your exclusive coupon — redeemable when the app launches:</p>
-        <div class="coupon-code">HALAL-BETA-2026</div>
-        <button class="copy-coupon-btn" onclick="copyCoupon(this)">Copy Code</button>
-        <p style="margin-top:16px">We'll reach out personally the moment Halal Seoul goes live. Stay tuned. <em>Jazakallahu Khairan!</em></p>
-      </div>
-    </div>
-  </section>
 
-  <script>
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz234xj1GMc4sQxl8AGT6XnNeurycJ4KgGmA772LLaiG0PHRb6SboDIHjSjRgo1ZA2rOw/exec';
+  <!-- STATS -->
+  <section id="stats">
+    <div class="container fade-in">
+      <div class="section-label">Traction</div>
+      <h2>Built on real <strong style="font-weight:800;color:#fff">trust</strong></h2>
+      <div class="stats-grid">
+        <div class="stat-card fade-in">
+          <span class="stat-num" data-target="45">0</span>
+          <div class="stat-label">Beta Users · Avg. Rating <strong>4.8 / 5</strong></div>
+        </div>
+        <div class="stat-card fade-in">
+          <span class="stat-num">₩2.6M</span>
+          <div class="stat-label">Seed Funding · via HUFS Grant</div>
+        </div>
+        <div class="stat-card fade-in">
+          <span class="stat-num" data-target="2000">0</span>
+          <div class="stat-label">Projected Monthly Users<br><strong>by Q4 2026</strong></div>
+        </div>
+        <div class="stat-card fade-in">
+          <span class="stat-num" data-target="1000">0</span>
+          <div class="stat-label">Muslim Community<br><strong>Partners</strong></div>
+        </div>
+      </div>
+      <p style="opacity:.55;font-size:.78rem;margin-top:20px;color:var(--text3)">
+        * Beta metrics as of early 2026. MAU shown is a forward projection.
+      </p>
+    </div>
+  </section>
 
-    async function saveSignup(type, value) {
-      const signups = JSON.parse(localStorage.getItem('halal_signups') || '[]');
-      signups.push({ type, value, date: new Date().toISOString() });
-      localStorage.setItem('halal_signups', JSON.stringify(signups));
-      if (GOOGLE_SCRIPT_URL) {
-        try {
-          await fetch(GOOGLE_SCRIPT_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ type, value, date: new Date().toISOString() })
-          });
-        } catch (err) {
-          console.error('Google Sheets transmission error:', err);
-        }
-      }
-    }
 
-    async function submitHeroForm() {
-      const input = document.getElementById('heroEmail');
-      const val = input.value;
-      const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
-      const isPhone = /[\d\-+()\s]{7,}/.test(val);
-      if (!val.trim() || (!isEmail && !isPhone)) {
-        input.style.borderColor = '#EF4444';
-        input.focus();
-        setTimeout(() => input.style.borderColor = '', 1500);
-        return;
-      }
-      const mode = isEmail ? 'email' : 'phone';
-      await saveSignup(mode, val);
-      document.getElementById('heroFormRow').style.display = 'none';
-      document.querySelector('.hero-form .form-hint').style.display = 'none';
-      document.getElementById('heroSuccess').classList.add('show');
-    }
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <div class="container fade-in">
+      <div class="section-label">How It Works</div>
+      <h2><strong style="font-weight:800;color:var(--green)">Three steps.</strong> That's it.</h2>
+      <div class="steps">
+        <div class="step fade-in">
+          <div class="step-num">1</div>
+          <h3>Open & Scan</h3>
+          <p>Open the app and point your camera at any barcode on a Korean food product.</p>
+        </div>
+        <div class="step fade-in">
+          <div class="step-num">2</div>
+          <h3>AI Checks Instantly</h3>
+          <p>Our AI cross-checks the ingredients against our Halal database and delivers a clear verdict in seconds.</p>
+        </div>
+        <div class="step fade-in">
+          <div class="step-num">3</div>
+          <h3>Shop with Confidence</h3>
+          <p>Add it to your cart and move on. Share the find with your community. Enjoy K-Food the way it should be.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    // Scroll fade-in
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target) } });
-    }, { threshold: .12 });
-    document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
 
-    // Stat counter (only for elements with data-target)
-    const sObs = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (!e.isIntersecting) return;
-        const el = e.target, t = +el.dataset.target, d = 1200, s = t / (d / 16);
-        let c = 0;
-        const timer = setInterval(() => { c = Math.min(c + s, t); el.textContent = Math.floor(c).toLocaleString(); if (c >= t) clearInterval(timer) }, 16);
-        sObs.unobserve(el);
-      });
-    }, { threshold: .3 });
-    document.querySelectorAll('[data-target]').forEach(el => sObs.observe(el));
+  <!-- SOCIAL PROOF -->
+  <section id="proof">
+    <div class="container fade-in">
+      <div class="section-label">What Users Say</div>
+      <h2>Real people. <strong style="font-weight:800;color:var(--green)">Real results.</strong></h2>
+      <div class="review-score">
+        <span class="stars">★★★★★</span>
+        <span class="score-text">4.8 / 5.0</span>
+        <span class="score-sub">— 45 beta users</span>
+      </div>
+      <div class="proof-cards">
+        <div class="proof-quote fade-in">
+          "I used to spend 30 minutes in every convenience store just reading labels. With Halal Seoul, I scan and go. It genuinely changed my daily life in Korea."
+          <div class="proof-meta">— Beta user, Malaysia</div>
+        </div>
+        <div class="proof-quote fade-in">
+          "I love K-Food but always worried about what I was actually eating. Now I explore Korean snacks freely, without any anxiety. Every Muslim in Korea needs this."
+          <div class="proof-meta">— Exchange student at HUFS, Indonesia</div>
+        </div>
+        <div class="proof-quote fade-in">
+          "Finally, an app that actually gets what Muslims in Korea need. The scan results are clear and I trust them completely."
+          <div class="proof-meta">— Working professional, Saudi Arabia</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    // ── Hamburger / mobile nav ──
-    function toggleNav() {
-      const nav = document.getElementById('navLinks');
-      const btn = document.getElementById('hamburger');
-      const isOpen = nav.classList.toggle('nav-open');
-      btn.classList.toggle('open', isOpen);
-    }
 
-    document.addEventListener('click', function (e) {
-      const nav = document.getElementById('navLinks');
-      const btn = document.getElementById('hamburger');
-      if (nav.classList.contains('nav-open') && !nav.contains(e.target) && !btn.contains(e.target)) {
-        nav.classList.remove('nav-open');
-        btn.classList.remove('open');
-      }
-    });
+  <!-- REGISTER -->
+  <section id="register">
+    <div class="container fade-in">
+      <div class="section-label">Early Access</div>
+      <h2>Be the <em style="font-style:normal;color:var(--green)">first</em> to try Halal Seoul.</h2>
+      <p>Join the beta waitlist and receive a <strong>free premium coupon</strong> — valid from day one. Limited spots available.</p>
+      <div class="coupon-badge">🎁 Free Premium Coupon for Early Testers</div>
 
-    // ── Registration Form ──
-    let regMode = 'email';
 
-    function switchRegMode(mode, btn) {
-      regMode = mode;
-      const input = document.getElementById('regInput');
-      document.querySelectorAll('#regToggle button').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      if (mode === 'phone') {
-        input.type = 'tel';
-        input.placeholder = '+82 10-1234-5678';
-      } else {
-        input.type = 'email';
-        input.placeholder = 'your@email.com';
-      }
-      input.value = '';
-      input.focus();
-    }
+      <div class="signup-form" id="regFormWrap">
+        <div class="form-toggle" id="regToggle">
+          <button class="active" onclick="switchRegMode('email',this)">✉️ Email</button>
+          <button onclick="switchRegMode('phone',this)">📱 Phone</button>
+        </div>
+        <div class="form-row">
+          <input type="email" id="regInput" placeholder="your@email.com" required>
+        </div>
+        <button class="form-submit" id="regSubmit" onclick="submitRegForm()">Join Beta Waitlist — It's Free</button>
+        <div class="trust-line">No spam · Unsubscribe anytime · English · Arabic · Malay · Korean</div>
+      </div>
 
-    function isValidInput(val, mode) {
-      if (!val.trim()) return false;
-      if (mode === 'email') return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
-      return /[\d\-+()\s]{7,}/.test(val);
-    }
 
-    async function submitRegForm() {
-      const input = document.getElementById('regInput');
-      const btn = document.getElementById('regSubmit');
-      const val = input.value;
-      if (!isValidInput(val, regMode)) {
-        input.style.borderColor = '#EF4444';
-        input.focus();
-        setTimeout(() => input.style.borderColor = '', 1500);
-        return;
-      }
-      btn.disabled = true;
-      btn.textContent = 'Submitting...';
-      await saveSignup(regMode, val);
-      document.getElementById('regFormWrap').style.display = 'none';
-      document.querySelector('#register .coupon-badge').style.display = 'none';
-      document.getElementById('regSuccess').classList.add('show');
-    }
+      <div class="form-success" id="regSuccess">
+        <h3>🎉 You're in!</h3>
+        <p>Pre-registration complete. Here's your exclusive coupon — redeemable when the app launches:</p>
+        <div class="coupon-code">HALAL-BETA-2026</div>
+        <button class="copy-coupon-btn" onclick="copyCoupon(this)">Copy Code</button>
+        <p style="margin-top:16px">We'll reach out personally the moment Halal Seoul goes live. Stay tuned. <em>Jazakallahu Khairan!</em></p>
+      </div>
+    </div>
+  </section>
 
-    function copyCoupon(btn) {
-      navigator.clipboard.writeText('HALAL-BETA-2026').then(() => {
-        btn.textContent = '✓ Copied!';
-        setTimeout(() => { btn.textContent = 'Copy Code' }, 2000);
-      }).catch(() => {
-        btn.textContent = '✓ Copied!';
-        setTimeout(() => { btn.textContent = 'Copy Code' }, 2000);
-      });
-    }
 
-  </script>
+  <script>
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz234xj1GMc4sQxl8AGT6XnNeurycJ4KgGmA772LLaiG0PHRb6SboDIHjSjRgo1ZA2rOw/exec';
+
+
+    async function saveSignup(type, value) {
+      const signups = JSON.parse(localStorage.getItem('halal_signups') || '[]');
+      signups.push({ type, value, date: new Date().toISOString() });
+      localStorage.setItem('halal_signups', JSON.stringify(signups));
+      if (GOOGLE_SCRIPT_URL) {
+        try {
+          await fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ type, value, date: new Date().toISOString() })
+          });
+        } catch (err) {
+          console.error('Google Sheets transmission error:', err);
+        }
+      }
+    }
+
+
+    async function submitHeroForm() {
+      const input = document.getElementById('heroEmail');
+      const val = input.value;
+      const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+      const isPhone = /[\d\-+()\s]{7,}/.test(val);
+      if (!val.trim() || (!isEmail && !isPhone)) {
+        input.style.borderColor = '#EF4444';
+        input.focus();
+        setTimeout(() => input.style.borderColor = '', 1500);
+        return;
+      }
+      const mode = isEmail ? 'email' : 'phone';
+      await saveSignup(mode, val);
+      document.getElementById('heroFormRow').style.display = 'none';
+      document.querySelector('.hero-form .form-hint').style.display = 'none';
+      document.getElementById('heroSuccess').classList.add('show');
+    }
+
+
+    // Scroll fade-in
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target) } });
+    }, { threshold: .12 });
+    document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+
+
+    // Stat counter (only for elements with data-target)
+    const sObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        const el = e.target, t = +el.dataset.target, d = 1200, s = t / (d / 16);
+        let c = 0;
+        const timer = setInterval(() => { c = Math.min(c + s, t); el.textContent = Math.floor(c).toLocaleString(); if (c >= t) clearInterval(timer) }, 16);
+        sObs.unobserve(el);
+      });
+    }, { threshold: .3 });
+    document.querySelectorAll('[data-target]').forEach(el => sObs.observe(el));
+
+
+    // ── Hamburger / mobile nav ──
+    function toggleNav() {
+      const nav = document.getElementById('navLinks');
+      const btn = document.getElementById('hamburger');
+      const isOpen = nav.classList.toggle('nav-open');
+      btn.classList.toggle('open', isOpen);
+    }
+
+
+    document.addEventListener('click', function (e) {
+      const nav = document.getElementById('navLinks');
+      const btn = document.getElementById('hamburger');
+      if (nav.classList.contains('nav-open') && !nav.contains(e.target) && !btn.contains(e.target)) {
+        nav.classList.remove('nav-open');
+        btn.classList.remove('open');
+      }
+    });
+
+
+    // ── Registration Form ──
+    let regMode = 'email';
+
+
+    function switchRegMode(mode, btn) {
+      regMode = mode;
+      const input = document.getElementById('regInput');
+      document.querySelectorAll('#regToggle button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      if (mode === 'phone') {
+        input.type = 'tel';
+        input.placeholder = '+82 10-1234-5678';
+      } else {
+        input.type = 'email';
+        input.placeholder = 'your@email.com';
+      }
+      input.value = '';
+      input.focus();
+    }
+
+
+    function isValidInput(val, mode) {
+      if (!val.trim()) return false;
+      if (mode === 'email') return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+      return /[\d\-+()\s]{7,}/.test(val);
+    }
+
+
+    async function submitRegForm() {
+      const input = document.getElementById('regInput');
+      const btn = document.getElementById('regSubmit');
+      const val = input.value;
+      if (!isValidInput(val, regMode)) {
+        input.style.borderColor = '#EF4444';
+        input.focus();
+        setTimeout(() => input.style.borderColor = '', 1500);
+        return;
+      }
+      btn.disabled = true;
+      btn.textContent = 'Submitting...';
+      await saveSignup(regMode, val);
+      document.getElementById('regFormWrap').style.display = 'none';
+      document.querySelector('#register .coupon-badge').style.display = 'none';
+      document.getElementById('regSuccess').classList.add('show');
+    }
+
+
+    function copyCoupon(btn) {
+      navigator.clipboard.writeText('HALAL-BETA-2026').then(() => {
+        btn.textContent = '✓ Copied!';
+        setTimeout(() => { btn.textContent = 'Copy Code' }, 2000);
+      }).catch(() => {
+        btn.textContent = '✓ Copied!';
+        setTimeout(() => { btn.textContent = 'Copy Code' }, 2000);
+      });
+    }
+
+
+  </script>
 </body>
 
+
 </html>
+
