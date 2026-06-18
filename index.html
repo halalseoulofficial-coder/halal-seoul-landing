@@ -5,9 +5,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Halal Seoul – Your Trusted K-Food Halal Scanner</title>
+  <title>Halal Seoul — Muslim Lifestyle App for Korea</title>
   <meta name="description"
-    content="Scan any Korean food product and instantly know if it's Halal. AI-powered barcode scanner built for Muslims living in and visiting Korea.">
+    content="The all-in-one Muslim lifestyle app for Korea — halal scanner, community, prayer times, and halal map. Built for Muslims living in and visiting Korea.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
     rel="stylesheet">
@@ -960,6 +960,143 @@
     }
 
 
+    /* ──── FEATURE VISUAL: PRAYER TIME ──── */
+    .prayer-mockup {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: center;
+      gap: 0;
+      padding: 22px 24px;
+      background: var(--bg2)
+    }
+
+    .prayer-header {
+      font-size: .75rem;
+      font-weight: 700;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 10px;
+      text-align: center
+    }
+
+    .prayer-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: .82rem;
+      gap: 8px
+    }
+
+    .prayer-item.active {
+      background: var(--green);
+      color: #fff;
+      margin: 3px 0
+    }
+
+    .prayer-name {
+      font-weight: 600;
+      flex: 1
+    }
+
+    .prayer-now {
+      font-size: .63rem;
+      background: rgba(255,255,255,.28);
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-weight: 700
+    }
+
+    .prayer-time-val {
+      font-weight: 700;
+      font-variant-numeric: tabular-nums
+    }
+
+    .qibla-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 10px;
+      padding: 8px 12px;
+      background: var(--green-soft);
+      border-radius: 8px;
+      font-size: .78rem;
+      font-weight: 600;
+      color: var(--green)
+    }
+
+
+    /* ──── FEATURE VISUAL: HALAL MAP ──── */
+    .map-mockup {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      padding: 22px 24px;
+      background: var(--bg2);
+      position: relative
+    }
+
+    .map-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(0deg, transparent, transparent 29px, var(--border) 29px, var(--border) 30px),
+        repeating-linear-gradient(90deg, transparent, transparent 29px, var(--border) 29px, var(--border) 30px);
+      opacity: .4;
+      border-radius: 20px
+    }
+
+    .map-card {
+      background: #fff;
+      border: 1.5px solid var(--green);
+      border-radius: 12px;
+      padding: 10px 14px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      position: relative;
+      z-index: 1
+    }
+
+    .map-pin-icon {
+      font-size: 1.3rem;
+      flex-shrink: 0
+    }
+
+    .map-card-info {
+      flex: 1
+    }
+
+    .map-card-name {
+      font-size: .82rem;
+      font-weight: 700;
+      color: var(--text)
+    }
+
+    .map-card-sub {
+      font-size: .71rem;
+      color: var(--text2)
+    }
+
+    .map-halal-badge {
+      background: var(--green-soft);
+      color: var(--green);
+      font-size: .65rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 5px;
+      letter-spacing: .04em;
+      flex-shrink: 0
+    }
+
+
     /* ──── STATS ──── */
     #stats {
       background: var(--green);
@@ -1716,6 +1853,24 @@
 
 <body>
 
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <a class="logo" href="index.html">Halal <span>Seoul</span></a>
+      <button class="hamburger" id="hamburger" onclick="toggleNav()" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="active" style="color:var(--green)">Home</a></li>
+        <li><a href="service-en.html">About</a></li>
+        <li class="nav-mobile-cta">
+          <a href="#register" class="nav-cta" style="text-decoration:none;display:block;text-align:center;" onclick="document.getElementById('register').scrollIntoView({behavior:'smooth'});return false;">Join Beta</a>
+        </li>
+      </ul>
+      <button class="nav-cta" onclick="document.getElementById('register').scrollIntoView({behavior:'smooth'})">Join Beta</button>
+    </div>
+  </nav>
+
 
   <!-- HERO -->
   <section id="hero">
@@ -1723,8 +1878,8 @@
     <div class="hero-deco b"></div>
     <div class="hero-content">
       <div class="hero-text fade-in">
-<h1>Scan. Check.<br><em>Eat Halal</em><br>in Korea.</h1>
-        <p class="hero-sub">Know instantly whether any K-Food product is Halal, Haram, or Mashbooh — one scan, no guesswork. Built for Muslims who live, study, and travel in Korea.</p>
+<h1>Your <em>Muslim Life</em><br>in Korea,<br>All in One App.</h1>
+        <p class="hero-sub">Halal scanner, prayer times, community, and a halal map — everything a Muslim needs in Korea, in one app. Scan any K-Food product instantly, find halal spots nearby, and connect with the Muslim community around you.</p>
         <div class="hero-cta-block">
           <p class="hero-cta-label">
             🎁 <strong>Join the beta waitlist and unlock a free premium coupon</strong> — redeemable from day one. Limited spots available.
@@ -1826,9 +1981,9 @@
       <!-- Feature 1: Scanner -->
       <div class="feature-row fade-in">
         <div class="feature-text">
-          <span class="feature-tag">AI Scanner</span>
+          <span class="feature-tag">Halal Scanner</span>
           <h3>Scan Any Barcode. Know in Seconds.</h3>
-          <p>Point your camera at any product and get an instant Halal, Haram, or Mashbooh verdict — powered by AI. No more squinting at Korean labels or second-guessing ingredients.</p>
+          <p>Point your camera at the barcode for an instant Halal, Haram, or Mashbooh verdict. No barcode? Just photograph the ingredient label — our AI reads and checks every ingredient for you. No more guesswork in Korean supermarkets.</p>
         </div>
         <div class="feature-visual scanner-mockup">
           <div class="scanner-barcode-wrap">
@@ -1849,8 +2004,32 @@
       </div>
 
 
-      <!-- Feature 2: Alternative Recommendation -->
+      <!-- Feature 2: Prayer Time & Qibla -->
       <div class="feature-row reverse fade-in">
+        <div class="feature-text">
+          <span class="feature-tag">Prayer Time & Qibla</span>
+          <h3>Never Miss a Prayer — Wherever You Are in Korea</h3>
+          <p>Get accurate, location-based prayer times updated daily for any city in Korea. Instant Qibla direction at your fingertips — no setup, no fuss. Stay connected to your faith, every day.</p>
+        </div>
+        <div class="feature-visual prayer-mockup">
+          <div class="prayer-header">Prayer Times · Seoul</div>
+          <div class="prayer-item"><span class="prayer-name">Fajr</span><span class="prayer-time-val">4:12 AM</span></div>
+          <div class="prayer-item"><span class="prayer-name">Sunrise</span><span class="prayer-time-val">5:43 AM</span></div>
+          <div class="prayer-item active">
+            <span class="prayer-name">Dhuhr</span>
+            <span class="prayer-now">Now</span>
+            <span class="prayer-time-val">12:18 PM</span>
+          </div>
+          <div class="prayer-item"><span class="prayer-name">Asr</span><span class="prayer-time-val">3:45 PM</span></div>
+          <div class="prayer-item"><span class="prayer-name">Maghrib</span><span class="prayer-time-val">7:52 PM</span></div>
+          <div class="prayer-item"><span class="prayer-name">Isha</span><span class="prayer-time-val">9:28 PM</span></div>
+          <div class="qibla-row">🧭 Qibla: 293° NW · Mecca</div>
+        </div>
+      </div>
+
+
+      <!-- Feature 3: Alternative Finder -->
+      <div class="feature-row fade-in">
         <div class="feature-text">
           <span class="feature-tag">Alternative Finder</span>
           <h3>Haram? Get a Halal Alternative Instantly</h3>
@@ -1882,13 +2061,12 @@
         </div>
       </div>
 
-
-      <!-- Feature 3: Community -->
-      <div class="feature-row fade-in">
+      <!-- Feature 4: Community -->
+      <div class="feature-row reverse fade-in">
         <div class="feature-text">
           <span class="feature-tag">Community</span>
-          <h3>Find Your Halal Community in Korea</h3>
-          <p>Discover restaurants, share product finds, and exchange tips with over 1,000 Muslims living and studying across Korea. The more we share, the easier Halal living gets.</p>
+          <h3>Review Products & Connect with Muslims in Korea</h3>
+          <p>Rate halal products, read reviews from the community, and post on the board — tips, questions, local finds. Built for Muslims navigating halal life in Korea together.</p>
         </div>
         <div class="feature-visual community-mockup">
           <div class="mini-review">
@@ -1901,16 +2079,52 @@
           <div class="mini-review">
             <div class="mini-avatar b">R</div>
             <div class="mini-review-body">
-              <div class="mini-stars-sm">★★★★★</div>
-              <div class="mini-review-text">Scanned 50+ products — results are spot on.</div>
+              <div class="mini-stars-sm" style="color:var(--text3);font-size:.68rem">📢 Board</div>
+              <div class="mini-review-text">Anyone know a halal butcher near Hongdae?</div>
             </div>
           </div>
           <div class="mini-review">
             <div class="mini-avatar c">F</div>
             <div class="mini-review-body">
-              <div class="mini-stars-sm">★★★★★</div>
-              <div class="mini-review-text">Best app for Muslims living in Seoul.</div>
+              <div class="mini-stars-sm">★★★★☆</div>
+              <div class="mini-review-text">Ottogi ramen — halal certified, great taste.</div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature 5: Halal Map -->
+      <div class="feature-row fade-in">
+        <div class="feature-text">
+          <span class="feature-tag">Halal Map</span>
+          <h3>Find Halal Restaurants & Stores Near You</h3>
+          <p>Browse a curated, community-verified map of halal restaurants, cafes, and grocery stores across Korea. Filter by location, cuisine, or certification status — and never wonder "is there anywhere halal nearby?" again.</p>
+        </div>
+        <div class="feature-visual map-mockup">
+          <div class="map-bg"></div>
+          <div class="map-card">
+            <span class="map-pin-icon">📍</span>
+            <div class="map-card-info">
+              <div class="map-card-name">Madinah Halal Restaurant</div>
+              <div class="map-card-sub">Itaewon · 0.3 km away</div>
+            </div>
+            <span class="map-halal-badge">✓ HALAL</span>
+          </div>
+          <div class="map-card">
+            <span class="map-pin-icon">🛒</span>
+            <div class="map-card-info">
+              <div class="map-card-name">Seoul Halal Mart</div>
+              <div class="map-card-sub">Dongdaemun · 1.1 km away</div>
+            </div>
+            <span class="map-halal-badge">✓ HALAL</span>
+          </div>
+          <div class="map-card">
+            <span class="map-pin-icon">☕</span>
+            <div class="map-card-info">
+              <div class="map-card-name">Al-Baraka Cafe</div>
+              <div class="map-card-sub">Sinchon · 2.0 km away</div>
+            </div>
+            <span class="map-halal-badge">✓ HALAL</span>
           </div>
         </div>
       </div>
@@ -1952,22 +2166,22 @@
   <section id="how">
     <div class="container fade-in">
       <div class="section-label">How It Works</div>
-      <h2><strong style="font-weight:800;color:var(--green)">Three steps.</strong> That's it.</h2>
+      <h2><strong style="font-weight:800;color:var(--green)">One app.</strong> Your whole Muslim life in Korea.</h2>
       <div class="steps">
         <div class="step fade-in">
           <div class="step-num">1</div>
-          <h3>Open & Scan</h3>
-          <p>Open the app and point your camera at any barcode on a Korean food product.</p>
+          <h3>Scan & Verify</h3>
+          <p>Point at the barcode for an instant verdict — or photograph the ingredient label when there's no barcode. Clear Halal / Haram / Mashbooh result in seconds.</p>
         </div>
         <div class="step fade-in">
           <div class="step-num">2</div>
-          <h3>AI Checks Instantly</h3>
-          <p>Our AI cross-checks the ingredients against our Halal database and delivers a clear verdict in seconds.</p>
+          <h3>Pray on Time</h3>
+          <p>Check accurate prayer times for your current city in Korea. Get your Qibla direction instantly — no setup needed.</p>
         </div>
         <div class="step fade-in">
           <div class="step-num">3</div>
-          <h3>Shop with Confidence</h3>
-          <p>Add it to your cart and move on. Share the find with your community. Enjoy K-Food the way it should be.</p>
+          <h3>Explore & Connect</h3>
+          <p>Find halal spots on the map, leave reviews, and connect with the Muslim community around you. The more we share, the easier halal life gets.</p>
         </div>
       </div>
     </div>
@@ -2033,6 +2247,29 @@
       </div>
     </div>
   </section>
+
+
+  <!-- FOOTER -->
+  <footer>
+    <div style="max-width:1200px;margin:0 auto">
+      <div class="footer-logo">Halal <span>Seoul</span></div>
+      <p style="margin-bottom:12px;line-height:2;font-size:.88rem">
+        <b style="color:var(--text)">Business</b>: Halal Seoul &nbsp;|&nbsp;
+        <b style="color:var(--text)">Representative</b>: Seungmin Son &nbsp;|&nbsp;
+        <b style="color:var(--text)">Business Reg.</b>: 421-25-02149 &nbsp;|&nbsp;
+        <b style="color:var(--text)">Email</b>: <a href="mailto:halalseoul.official@gmail.com">halalseoul.official@gmail.com</a>
+      </p>
+      <p style="margin-bottom:16px;font-size:.88rem">
+        <a href="terms.html">Terms of Service</a> &nbsp;·&nbsp;
+        <a href="privacy.html">Privacy Policy</a> &nbsp;·&nbsp;
+        <a href="refund-policy.html">Refund Policy</a> &nbsp;·&nbsp;
+        <a href="service-en.html">About</a>
+      </p>
+      <p style="font-size:.82rem;color:var(--text3)">
+        © 2026 Halal Seoul. All rights reserved. · 본 서비스는 공식 할랄 인증이 아닌 성분 정보 제공 서비스입니다.
+      </p>
+    </div>
+  </footer>
 
 
   <script>
@@ -2105,11 +2342,10 @@
       btn.classList.toggle('open', isOpen);
     }
 
-
     document.addEventListener('click', function (e) {
       const nav = document.getElementById('navLinks');
       const btn = document.getElementById('hamburger');
-      if (nav.classList.contains('nav-open') && !nav.contains(e.target) && !btn.contains(e.target)) {
+      if (nav && btn && nav.classList.contains('nav-open') && !nav.contains(e.target) && !btn.contains(e.target)) {
         nav.classList.remove('nav-open');
         btn.classList.remove('open');
       }

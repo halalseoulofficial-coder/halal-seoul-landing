@@ -1,0 +1,1647 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>앱 소개 — 할랄 서울 (Halal Seoul) · 무슬림 라이프스타일 앱</title>
+  <meta name="description"
+    content="할랄 서울은 AI 기반 바코드 스캔으로 한국 제품의 할랄 여부를 성분 단위로 확인할 수 있는 앱입니다. 월 2,900원, 언제든 해지 가능.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    :root {
+      --green: #0D7A55;
+      --green-light: #10B97A;
+      --green-soft: #E8F5EE;
+      --gold: #B8860B;
+      --gold-soft: #FDF6E3;
+      --bg: #FFFFFF;
+      --bg2: #F7F9FB;
+      --bg3: #F0F4F3;
+      --text: #1A2B1F;
+      --text2: #5A6B60;
+      --text3: #8A9B8F;
+      --border: #E2E8E4;
+      --radius: 16px;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 15px
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 15px;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.85;
+      overflow-x: hidden
+    }
+
+    /* ──── NAV ──── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, .92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 32px
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px
+    }
+
+    .logo {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none
+    }
+
+    .logo span {
+      color: var(--green)
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none
+    }
+
+    .nav-links a {
+      color: var(--text2);
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: color .2s
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--green)
+    }
+
+    .nav-cta {
+      background: var(--green);
+      color: #fff;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform .15s, box-shadow .2s;
+      font-family: inherit;
+      text-decoration: none;
+      display: inline-block
+    }
+
+    .nav-cta:hover {
+      transform: scale(1.03);
+      box-shadow: 0 4px 20px rgba(13, 122, 85, .25)
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 12px
+    }
+
+    .lang-toggle {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 4px
+    }
+
+    .lang-toggle a {
+      padding: 6px 12px;
+      border-radius: 6px;
+      color: var(--text3);
+      text-decoration: none;
+      font-size: .85rem;
+      font-weight: 700;
+      transition: background .2s, color .2s
+    }
+
+    .lang-toggle a.active {
+      background: #fff;
+      color: var(--green);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, .08)
+    }
+
+    .lang-toggle a:hover:not(.active) {
+      color: var(--text)
+    }
+
+    .nav-mobile-cta {
+      display: none
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px
+    }
+
+    .hamburger span {
+      width: 24px;
+      height: 2.5px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: .3s
+    }
+
+    .hamburger.open span:nth-child(1) {
+      transform: translateY(7.5px) rotate(45deg)
+    }
+
+    .hamburger.open span:nth-child(2) {
+      opacity: 0
+    }
+
+    .hamburger.open span:nth-child(3) {
+      transform: translateY(-7.5px) rotate(-45deg)
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    /* ──── SECTION BASE ──── */
+    section {
+      padding: 100px 32px
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto
+    }
+
+    .section-label {
+      font-size: .9rem;
+      font-weight: 700;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 12px
+    }
+
+    h2 {
+      font-size: clamp(36px, 4.5vw, 60px);
+      font-weight: 800;
+      margin-bottom: 14px;
+      line-height: 1.15;
+      letter-spacing: -.025em
+    }
+
+    .section-sub {
+      color: var(--text2);
+      font-size: 1.15rem;
+      max-width: 600px;
+      line-height: 1.85;
+      margin-top: 10px
+    }
+
+    /* ──── PAGE HEADER ──── */
+    #page-header {
+      padding: 140px 32px 80px;
+      background: linear-gradient(170deg, #FFFFFF 0%, #F0FAF5 40%, #FDF6E3 100%);
+      text-align: center;
+      position: relative;
+      overflow: hidden
+    }
+
+    .header-deco {
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: .25;
+      pointer-events: none
+    }
+
+    .header-deco.a {
+      background: var(--green-light);
+      top: -80px;
+      right: -60px
+    }
+
+    .header-deco.b {
+      background: #C9A84C;
+      bottom: -100px;
+      left: -60px;
+      opacity: .15
+    }
+
+    #page-header h1 {
+      font-size: clamp(40px, 5.5vw, 72px);
+      font-weight: 900;
+      line-height: 1.15;
+      letter-spacing: -.025em;
+      margin-bottom: 20px
+    }
+
+    #page-header h1 em {
+      font-style: normal;
+      color: var(--green)
+    }
+
+    .header-sub {
+      color: var(--text2);
+      font-size: 1.25rem;
+      max-width: 600px;
+      margin: 0 auto 28px;
+      line-height: 1.8
+    }
+
+    .notice-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--gold-soft);
+      border: 1px solid rgba(184, 134, 11, .2);
+      border-radius: 99px;
+      padding: 10px 24px;
+      font-size: .9rem;
+      font-weight: 600;
+      color: var(--gold);
+      line-height: 1.5
+    }
+
+    /* ──── 서비스 소개 ──── */
+    #service-intro {
+      background: var(--bg2)
+    }
+
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 72px;
+      align-items: center;
+      margin-top: 56px
+    }
+
+    .intro-text h3 {
+      font-size: 1.65rem;
+      font-weight: 800;
+      margin-bottom: 18px;
+      line-height: 1.35
+    }
+
+    .intro-text p {
+      color: var(--text2);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      margin-bottom: 20px
+    }
+
+    .intro-points {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 8px
+    }
+
+    .intro-point {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--green);
+      border-radius: 12px;
+      padding: 18px 20px
+    }
+
+    .intro-point-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: var(--green-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0
+    }
+
+    .intro-point-body strong {
+      display: block;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px
+    }
+
+    .intro-point-body span {
+      font-size: .95rem;
+      color: var(--text2);
+      line-height: 1.6
+    }
+
+    /* ──── 서비스 소개 VISUAL ──── */
+    .intro-visual {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 36px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px
+    }
+
+    .intro-vis-row {
+      display: flex;
+      align-items: center;
+      gap: 14px
+    }
+
+    .intro-vis-step {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--green);
+      color: #fff;
+      font-weight: 800;
+      font-size: .95rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0
+    }
+
+    .intro-vis-text {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text)
+    }
+
+    .intro-vis-text span {
+      display: block;
+      font-size: .85rem;
+      font-weight: 400;
+      color: var(--text2);
+      margin-top: 2px
+    }
+
+    .intro-vis-divider {
+      width: 2px;
+      height: 20px;
+      background: var(--border);
+      margin-left: 17px
+    }
+
+    .intro-vis-result {
+      background: var(--green-soft);
+      border: 2px solid var(--green);
+      border-radius: 12px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px
+    }
+
+    .intro-vis-result .check {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--green);
+      color: #fff;
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0
+    }
+
+    .intro-vis-result-text strong {
+      display: block;
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--green)
+    }
+
+    .intro-vis-result-text span {
+      font-size: .85rem;
+      color: var(--text2)
+    }
+
+    .haram-alert {
+      background: #FEE2E2;
+      border: 1.5px solid #FCA5A5;
+      border-radius: 12px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px
+    }
+
+    .haram-alert .alert-icon {
+      font-size: 1.3rem;
+      flex-shrink: 0
+    }
+
+    .haram-alert-text strong {
+      display: block;
+      font-size: .95rem;
+      font-weight: 700;
+      color: #B91C1C
+    }
+
+    .haram-alert-text span {
+      font-size: .82rem;
+      color: #7F1D1D
+    }
+
+    /* ──── 주요 기능 ──── */
+    #features {
+      background: var(--bg)
+    }
+
+    .feature-cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      margin-top: 56px
+    }
+
+    .feature-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 40px 32px;
+      transition: transform .25s, box-shadow .25s, border-color .2s
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, .07);
+      border-color: var(--green)
+    }
+
+    .feature-card-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 16px;
+      background: var(--green-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.7rem;
+      margin-bottom: 20px
+    }
+
+    .feature-card h3 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin-bottom: 12px
+    }
+
+    .feature-card p {
+      color: var(--text2);
+      font-size: 1rem;
+      line-height: 1.8
+    }
+
+    /* ──── 구독 플랜 ──── */
+    #pricing {
+      background: var(--bg2)
+    }
+
+    .pricing-wrap {
+      max-width: 520px;
+      margin: 56px auto 0
+    }
+
+    .pricing-card {
+      background: #fff;
+      border: 2px solid var(--green);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 16px 64px rgba(13, 122, 85, .12)
+    }
+
+    .pricing-header {
+      background: var(--green);
+      padding: 36px 40px;
+      text-align: center;
+      color: #fff
+    }
+
+    .pricing-plan-name {
+      font-size: .9rem;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      opacity: .8;
+      margin-bottom: 12px
+    }
+
+    .pricing-price {
+      font-size: clamp(52px, 9vw, 80px);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -.03em
+    }
+
+    .pricing-price sub {
+      font-size: 1.3rem;
+      font-weight: 700;
+      vertical-align: bottom;
+      margin-bottom: 8px;
+      display: inline-block
+    }
+
+    .pricing-price sup {
+      font-size: 1.4rem;
+      font-weight: 700;
+      vertical-align: top;
+      margin-top: 10px;
+      display: inline-block
+    }
+
+    .pricing-period {
+      font-size: 1rem;
+      opacity: .8;
+      margin-top: 8px
+    }
+
+    .pricing-body {
+      padding: 36px 40px
+    }
+
+    .pricing-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 32px
+    }
+
+    .pricing-features li {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: var(--text)
+    }
+
+    .pricing-features li .check {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--green-soft);
+      color: var(--green);
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-weight: 800
+    }
+
+    .pricing-cta {
+      display: block;
+      width: 100%;
+      padding: 18px;
+      background: var(--green);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      text-align: center;
+      text-decoration: none;
+      transition: transform .15s, box-shadow .2s
+    }
+
+    .pricing-cta:hover {
+      transform: scale(1.02);
+      box-shadow: 0 8px 32px rgba(13, 122, 85, .3)
+    }
+
+    .pricing-note {
+      text-align: center;
+      margin-top: 14px;
+      font-size: .88rem;
+      color: var(--text3);
+      line-height: 1.6
+    }
+
+    .digital-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--gold-soft);
+      border: 1px solid rgba(184, 134, 11, .18);
+      border-radius: 99px;
+      padding: 5px 14px;
+      font-size: .8rem;
+      font-weight: 600;
+      color: var(--gold);
+      margin-top: 10px
+    }
+
+    /* ──── 환불 정책 ──── */
+    #refund {
+      background: var(--bg)
+    }
+
+    .refund-cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      margin-top: 56px
+    }
+
+    .refund-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px 24px;
+      text-align: center
+    }
+
+    .refund-icon {
+      font-size: 2rem;
+      margin-bottom: 16px
+    }
+
+    .refund-card h3 {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 10px
+    }
+
+    .refund-card p {
+      font-size: .95rem;
+      color: var(--text2);
+      line-height: 1.75
+    }
+
+    .refund-email-box {
+      margin-top: 40px;
+      background: var(--green-soft);
+      border: 1.5px solid rgba(13, 122, 85, .2);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      display: flex;
+      align-items: center;
+      gap: 20px
+    }
+
+    .refund-email-box .icon {
+      font-size: 1.8rem;
+      flex-shrink: 0
+    }
+
+    .refund-email-box strong {
+      display: block;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px
+    }
+
+    .refund-email-box span {
+      font-size: .95rem;
+      color: var(--text2)
+    }
+
+    .refund-email-box a {
+      color: var(--green);
+      font-weight: 600;
+      text-decoration: none
+    }
+
+    .refund-email-box a:hover {
+      text-decoration: underline
+    }
+
+    /* ──── FAQ ──── */
+    #faq {
+      background: var(--bg2)
+    }
+
+    .faq-list {
+      margin-top: 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px
+    }
+
+    .faq-item {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: border-color .2s
+    }
+
+    .faq-item.open {
+      border-color: var(--green)
+    }
+
+    .faq-question {
+      width: 100%;
+      text-align: left;
+      padding: 24px 28px;
+      background: none;
+      border: none;
+      font-family: inherit;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      transition: color .2s
+    }
+
+    .faq-item.open .faq-question {
+      color: var(--green)
+    }
+
+    .faq-arrow {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--bg2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      transition: transform .3s, background .2s;
+      flex-shrink: 0
+    }
+
+    .faq-item.open .faq-arrow {
+      transform: rotate(180deg);
+      background: var(--green-soft)
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .35s ease, padding .25s ease
+    }
+
+    .faq-answer-inner {
+      padding: 0 28px 24px;
+      color: var(--text2);
+      font-size: 1rem;
+      line-height: 1.85
+    }
+
+    .faq-item.open .faq-answer {
+      max-height: 300px
+    }
+
+    /* ──── 이런 경험 ──── */
+    #pain {
+      background: var(--bg)
+    }
+
+    .pain-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 56px
+    }
+
+    .pain-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--green);
+      border-radius: var(--radius);
+      padding: 32px 28px
+    }
+
+    .pain-icon {
+      font-size: 2rem;
+      margin-bottom: 16px
+    }
+
+    .pain-card h3 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 12px;
+      line-height: 1.4
+    }
+
+    .pain-card p {
+      font-size: .97rem;
+      color: var(--text2);
+      line-height: 1.85
+    }
+
+    /* ──── 이런 분들께 ──── */
+    #targets {
+      background: var(--bg)
+    }
+
+    .target-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 56px
+    }
+
+    .target-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 36px 28px;
+      text-align: center;
+      transition: transform .25s, box-shadow .25s, border-color .2s
+    }
+
+    .target-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, .07);
+      border-color: var(--green)
+    }
+
+    .target-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--green-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      margin: 0 auto 20px
+    }
+
+    .target-card h3 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 12px;
+      line-height: 1.4
+    }
+
+    .target-card p {
+      font-size: .95rem;
+      color: var(--text2);
+      line-height: 1.85
+    }
+
+    /* ──── SCROLL ANIMATION ──── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .6s ease, transform .6s ease
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0)
+    }
+
+    /* ──── FOOTER ──── */
+    footer {
+      background: var(--text);
+      color: rgba(255, 255, 255, .7);
+      padding: 56px 32px 40px;
+      font-size: .9rem
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto
+    }
+
+    .footer-logo {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 20px;
+      display: block
+    }
+
+    .footer-logo span {
+      color: var(--green-light)
+    }
+
+    .footer-biz {
+      line-height: 2;
+      font-size: .88rem;
+      margin-bottom: 24px
+    }
+
+    .footer-biz b {
+      color: rgba(255, 255, 255, .9)
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-bottom: 28px
+    }
+
+    .footer-links a {
+      color: rgba(255, 255, 255, .6);
+      text-decoration: none;
+      font-size: .88rem;
+      transition: color .2s
+    }
+
+    .footer-links a:hover {
+      color: var(--green-light)
+    }
+
+    .footer-copy {
+      border-top: 1px solid rgba(255, 255, 255, .1);
+      padding-top: 24px;
+      font-size: .82rem;
+      color: rgba(255, 255, 255, .4)
+    }
+
+    /* ──── MOBILE ──── */
+    @media(max-width:768px) {
+      nav {
+        padding: 0 20px
+      }
+
+      .nav-links {
+        display: none
+      }
+
+      .nav-links.nav-open {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        position: absolute;
+        top: 72px;
+        left: 0;
+        right: 0;
+        background: rgba(255, 255, 255, .97);
+        backdrop-filter: blur(16px);
+        border-bottom: 1px solid var(--border);
+        padding: 8px 20px 20px;
+        z-index: 99;
+        animation: slideDown .25s ease
+      }
+
+      .nav-links.nav-open li {
+        border-bottom: 1px solid var(--border);
+        padding: 12px 0
+      }
+
+      .nav-links.nav-open li:last-child {
+        border-bottom: none
+      }
+
+      .nav-mobile-cta {
+        display: block
+      }
+
+      .nav-mobile-cta .nav-cta {
+        width: 100%;
+        text-align: center;
+        display: block
+      }
+
+      .nav-cta {
+        display: none
+      }
+
+      .hamburger {
+        display: flex
+      }
+
+      .lang-toggle {
+        display: none
+      }
+
+      section {
+        padding: 64px 20px
+      }
+
+      #page-header {
+        padding: 110px 20px 60px
+      }
+
+      .intro-grid {
+        grid-template-columns: 1fr;
+        gap: 36px
+      }
+
+      .feature-cards {
+        grid-template-columns: 1fr
+      }
+
+      .pain-cards {
+        grid-template-columns: 1fr
+      }
+
+      .target-cards {
+        grid-template-columns: 1fr
+      }
+
+      .refund-cards {
+        grid-template-columns: 1fr
+      }
+
+      .refund-email-box {
+        flex-direction: column;
+        text-align: center
+      }
+
+      .pricing-header {
+        padding: 28px 24px
+      }
+
+      .pricing-body {
+        padding: 28px 24px
+      }
+
+      .faq-question {
+        padding: 20px 20px;
+        font-size: .98rem
+      }
+
+      .faq-answer-inner {
+        padding: 0 20px 20px
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <a class="logo" href="index.html">Halal <span>Seoul</span></a>
+      <button class="hamburger" id="hamburger" onclick="toggleNav()" aria-label="메뉴 열기">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">홈</a></li>
+        <li><a href="service.html" class="active">서비스 소개</a></li>
+        <li class="nav-mobile-cta">
+          <a href="index.html#register" class="nav-cta" style="text-decoration:none;display:block;text-align:center;">베타 신청</a>
+        </li>
+      </ul>
+      <div class="nav-right">
+        <div class="lang-toggle">
+          <a href="service.html" class="active">KO</a>
+          <a href="service-en.html">EN</a>
+        </div>
+        <a href="index.html#register" class="nav-cta">베타 신청</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <!-- PAGE HEADER -->
+  <section id="page-header">
+    <div class="header-deco a"></div>
+    <div class="header-deco b"></div>
+    <div class="container fade-in">
+      <div class="section-label">할랄 서울 소개</div>
+      <h1>한국에서의 무슬림 일상,<br><em>하나의 앱으로</em></h1>
+      <p class="header-sub">
+        할랄 스캐너, 기도 시간, 커뮤니티, 할랄 지도 — 한국에서 무슬림으로 살아가는 데 필요한 모든 것을 한 앱에 담았습니다.
+      </p>
+      <div class="notice-badge">
+        ⚠️ 할랄 스캐너는 공식 제3자 할랄 인증이 아닌 성분 단위 정보 제공 서비스입니다. 최종 판단은 이용자 본인이 합니다.
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 서비스 소개 -->
+  <section id="service-intro">
+    <div class="container">
+      <div class="section-label fade-in">서비스 소개</div>
+      <h2 class="fade-in">4가지 기능,<br><strong style="color:var(--green)">하나의 라이프스타일 앱</strong></h2>
+      <p class="section-sub fade-in">스캐너, 기도 시간, 커뮤니티, 할랄 지도 — 한국 무슬림의 일상에 필요한 모든 것을 한 곳에.</p>
+
+      <div class="intro-grid fade-in">
+        <div class="intro-text">
+          <h3>한국에서 무슬림으로<br>살아가는 모든 순간을</h3>
+          <p>
+            편의점에서 제품을 스캔하는 것부터 점심시간에 기도 방향을 확인하는 것까지 — 할랄 서울은 한국에서의 무슬림 일상 전반을 함께합니다.
+          </p>
+          <div class="intro-points">
+            <div class="intro-point">
+              <div class="intro-point-icon">📷</div>
+              <div class="intro-point-body">
+                <strong>할랄 스캐너</strong>
+                <span>바코드를 스캔하면 즉시 결과를 확인합니다. 바코드가 없으면 성분표를 촬영하면 AI가 읽고 분석합니다.</span>
+              </div>
+            </div>
+            <div class="intro-point">
+              <div class="intro-point-icon">🔄</div>
+              <div class="intro-point-body">
+                <strong>대체 상품 추천</strong>
+                <span>하람 판정 시 같은 카테고리의 할랄 대체 상품을 즉시 추천해 빈 손으로 마트를 나가는 일이 없도록 합니다.</span>
+              </div>
+            </div>
+            <div class="intro-point">
+              <div class="intro-point-icon">🕌</div>
+              <div class="intro-point-body">
+                <strong>기도 시간 & 키블라</strong>
+                <span>한국 어느 도시에서든 정확한 기도 시간을 매일 확인하고, 키블라 방향도 바로 확인할 수 있습니다.</span>
+              </div>
+            </div>
+            <div class="intro-point">
+              <div class="intro-point-icon">💬</div>
+              <div class="intro-point-body">
+                <strong>커뮤니티</strong>
+                <span>할랄 제품을 평가하고 리뷰를 공유하거나, 게시판에 질문과 팁을 올려 함께 정보를 쌓아갑니다.</span>
+              </div>
+            </div>
+            <div class="intro-point">
+              <div class="intro-point-icon">📍</div>
+              <div class="intro-point-body">
+                <strong>할랄 지도</strong>
+                <span>커뮤니티가 직접 검증한 한국의 할랄 식당, 카페, 마트를 지도로 한눈에 찾아볼 수 있습니다.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="intro-visual">
+          <div class="intro-vis-row">
+            <div class="intro-vis-step">1</div>
+            <div class="intro-vis-text">
+              바코드 스캔 또는 검색
+              <span>카메라 또는 제품명 입력</span>
+            </div>
+          </div>
+          <div class="intro-vis-divider"></div>
+          <div class="intro-vis-row">
+            <div class="intro-vis-step">2</div>
+            <div class="intro-vis-text">
+              AI 성분 분석
+              <span>전 성분을 할랄 기준으로 검토</span>
+            </div>
+          </div>
+          <div class="intro-vis-divider"></div>
+          <div class="intro-vis-row">
+            <div class="intro-vis-step">3</div>
+            <div class="intro-vis-text">
+              결과 확인
+              <span>할랄 / 주의 / 위험 성분 표시</span>
+            </div>
+          </div>
+          <div class="intro-vis-divider"></div>
+
+          <div class="intro-vis-result">
+            <div class="check">✓</div>
+            <div class="intro-vis-result-text">
+              <strong>할랄 가능 성분</strong>
+              <span>돼지 유래, 알코올 성분 미검출</span>
+            </div>
+          </div>
+
+          <div class="haram-alert">
+            <div class="alert-icon">⚠️</div>
+            <div class="haram-alert-text">
+              <strong>주의 성분 발견</strong>
+              <span>젤라틴(돼지 유래 가능) 포함 — 성분표 직접 확인을 권장합니다</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 이런 경험 있으셨나요 -->
+  <section id="pain">
+    <div class="container">
+      <div class="section-label fade-in">불편함에서 출발했습니다</div>
+      <h2 class="fade-in">이런 경험,<br><strong style="color:var(--green)">있으셨나요?</strong></h2>
+      <p class="section-sub fade-in">한국에서 할랄 식단을 지키는 건 생각보다 훨씬 어렵습니다. 할랄 서울은 그 불편함을 해결하기 위해 만들어졌습니다.</p>
+
+      <div class="pain-cards fade-in">
+        <div class="pain-card">
+          <div class="pain-icon">🤔</div>
+          <h3>성분표가 전부 한국어예요</h3>
+          <p>마트에서 제품을 집어 들어도 성분표가 모두 한국어. 번역 앱으로 하나씩 찍어봐도 그 성분이 어디서 온 건지, 할랄인지 하람인지 알 수가 없습니다.</p>
+        </div>
+        <div class="pain-card">
+          <div class="pain-icon">😰</div>
+          <h3>젤라틴이 돼지 유래인지 모르겠어요</h3>
+          <p>젤라틴, 카르민, 쇼트닝 — 이름만 봐선 출처를 알 수 없습니다. 구글에 검색해도 한국 제품 기준 정보는 찾기 어렵고, 매번 확신하기 어렵습니다.</p>
+        </div>
+        <div class="pain-card">
+          <div class="pain-icon">⏱️</div>
+          <h3>장 볼 때마다 너무 오래 걸려요</h3>
+          <p>편의점에서 라면 하나 고르는 데 10분. 제품을 살 때마다 성분을 따로 검색하는 시간이 쌓이면 일상이 되어 버립니다.</p>
+        </div>
+        <div class="pain-card">
+          <div class="pain-icon">📍</div>
+          <h3>근처에 할랄 식당이 있긴 한 건가요?</h3>
+          <p>할랄 음식점 정보는 오래된 블로그나 단체 채팅방에 흩어져 있고, 최신 정보인지도 알 수 없습니다. 마그립 전에 먹을 곳 하나 찾는 데 20분이 걸려서는 안 됩니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 주요 기능 -->
+  <section id="features" style="background:var(--bg2)">
+    <div class="container">
+      <div class="section-label fade-in">주요 기능</div>
+      <h2 class="fade-in">할랄 서울이 <strong style="color:var(--green)">제공하는 것들</strong></h2>
+      <p class="section-sub fade-in">한국 무슬림의 일상을 위한 4가지 기능 — 스캐너, 기도 시간, 커뮤니티, 할랄 지도.</p>
+
+      <div class="feature-cards">
+        <div class="feature-card fade-in">
+          <div class="feature-card-icon">📷</div>
+          <h3>할랄 스캐너</h3>
+          <p>
+            바코드에 카메라를 갖다 대면 즉시 할랄 / 하람 / 마슈부 판정을 받습니다.
+            바코드가 없다면 성분표를 촬영하면 AI가 직접 읽고 분석합니다.
+            돼지 유래 성분과 알코올은 즉시 감지되어 알림이 표시됩니다.
+          </p>
+        </div>
+        <div class="feature-card fade-in">
+          <div class="feature-card-icon">🔄</div>
+          <h3>대체 상품 추천</h3>
+          <p>
+            하람 판정이 나온 제품에서 멈추지 않습니다.
+            같은 카테고리의 검증된 할랄 대체 상품을 즉시 추천해 드려
+            빈 손으로 마트를 나가는 일이 없도록 합니다.
+          </p>
+        </div>
+        <div class="feature-card fade-in">
+          <div class="feature-card-icon">🕌</div>
+          <h3>기도 시간 & 키블라</h3>
+          <p>
+            한국 내 어느 도시에서든 매일 정확한 기도 시간을 위치 기반으로 제공합니다.
+            탭 한 번으로 현재 위치의 키블라 방향을 확인하세요.
+            별도 설정 없이 바로 사용할 수 있습니다.
+          </p>
+        </div>
+        <div class="feature-card fade-in">
+          <div class="feature-card-icon">💬</div>
+          <h3>커뮤니티</h3>
+          <p>
+            할랄 제품을 직접 평가하고 리뷰를 남겨 함께 정보를 만들어갑니다.
+            커뮤니티 게시판에서 질문하고 팁을 공유하며, 한국의 무슬림들과 연결됩니다.
+            공유할수록 모두의 할랄 생활이 쉬워집니다.
+          </p>
+        </div>
+        <div class="feature-card fade-in">
+          <div class="feature-card-icon">📍</div>
+          <h3>할랄 지도</h3>
+          <p>
+            한국 전역의 할랄 식당, 카페, 마트를 커뮤니티가 직접 검증한 지도로 한눈에 확인합니다.
+            위치·카테고리별로 필터링하고, 새로 발견한 장소는 직접 등록할 수도 있습니다.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 이런 분들께 맞습니다 -->
+  <section id="targets">
+    <div class="container">
+      <div class="section-label fade-in">대상 이용자</div>
+      <h2 class="fade-in">이런 분들께<br><strong style="color:var(--green)">꼭 맞습니다</strong></h2>
+      <p class="section-sub fade-in">한국에서 할랄 식단을 지키려는 누구든, 할랄 서울이 함께합니다.</p>
+
+      <div class="target-cards fade-in">
+        <div class="target-card">
+          <div class="target-icon">✈️</div>
+          <h3>한국을 여행하는 무슬림</h3>
+          <p>편의점·마트·관광지 어디서든 제품 성분을 즉석에서 확인하세요. 낯선 한국 제품도 자신 있게 고를 수 있습니다.</p>
+        </div>
+        <div class="target-card">
+          <div class="target-icon">🏠</div>
+          <h3>한국에 거주하는 무슬림</h3>
+          <p>유학생, 직장인, 장기 체류자라면 매일 마주치는 고민을 한 번에 해결하세요. 자주 사는 제품은 이력에 저장해 매번 검색할 필요가 없습니다.</p>
+        </div>
+        <div class="target-card">
+          <div class="target-icon">🌙</div>
+          <h3>할랄 식단을 철저히 지키는 분</h3>
+          <p>E-코드 첨가물, 알코올 함유 향료, 불명확한 동물성 성분까지 — 성분 하나하나를 꼼꼼하게 확인하고 싶은 분을 위해 만들었습니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 구독 플랜 -->
+  <section id="pricing">
+    <div class="container">
+      <div class="section-label fade-in" style="text-align:center">구독 플랜</div>
+      <h2 class="fade-in" style="text-align:center">심플한 요금제, <strong style="color:var(--green)">하나뿐</strong></h2>
+      <p class="section-sub fade-in" style="text-align:center;margin:0 auto">
+        복잡한 옵션 없이 하나의 플랜으로 모든 기능을 이용하세요.
+      </p>
+
+      <div class="pricing-wrap fade-in">
+        <div class="pricing-card">
+          <div class="pricing-header">
+            <div class="pricing-plan-name">월간 구독</div>
+            <div class="pricing-price">
+              <sub>₩</sub>2,900<sup style="font-size:1rem;font-weight:600;opacity:.8">/월</sup>
+            </div>
+            <div class="pricing-period">매월 자동 결제 · 언제든 해지 가능</div>
+          </div>
+          <div class="pricing-body">
+            <ul class="pricing-features">
+              <li>
+                <div class="check">✓</div>
+                성분 무제한 스캔
+              </li>
+              <li>
+                <div class="check">✓</div>
+                할랄 위험 성분 자동 탐지
+              </li>
+              <li>
+                <div class="check">✓</div>
+                검색 기록 무제한 저장
+              </li>
+              <li>
+                <div class="check">✓</div>
+                언제든 해지 가능
+              </li>
+              <li>
+                <div class="check">✓</div>
+                즉시 이용 시작
+              </li>
+            </ul>
+            <a href="index.html#register" class="pricing-cta">지금 베타 무료로 시작하기</a>
+            <div class="pricing-note">
+              <span class="digital-badge">📱 디지털 서비스 · 배송 없음</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 환불 정책 -->
+  <section id="refund">
+    <div class="container">
+      <div class="section-label fade-in">환불 정책</div>
+      <h2 class="fade-in">이용자 보호를 위한<br><strong style="color:var(--green)">환불 원칙</strong></h2>
+      <p class="section-sub fade-in">결제 후 후회하지 않도록, 명확한 환불 기준을 안내합니다.</p>
+
+      <div class="refund-cards fade-in">
+        <div class="refund-card">
+          <div class="refund-icon">📅</div>
+          <h3>결제 후 7일 이내<br>미이용 시</h3>
+          <p>
+            구독 결제 후 서비스를 전혀 이용하지 않은 경우,
+            결제일로부터 <strong>7일 이내</strong>에 신청하시면
+            <strong>전액 환불</strong>해 드립니다.
+          </p>
+        </div>
+        <div class="refund-card">
+          <div class="refund-icon">✉️</div>
+          <h3>고객센터<br>이메일 접수</h3>
+          <p>
+            환불은 고객센터 이메일로 접수합니다.
+            주문번호, 결제일, 환불 사유를 함께 보내주시면
+            영업일 기준 <strong>3일 이내</strong> 처리합니다.
+          </p>
+        </div>
+      </div>
+
+      <div class="refund-email-box fade-in">
+        <div class="icon">📬</div>
+        <div>
+          <strong>환불 및 해지 문의</strong>
+          <span>
+            고객센터 이메일:
+            <a href="mailto:halalseoul.official@gmail.com">halalseoul.official@gmail.com</a>
+            &nbsp;—&nbsp; 영업일 기준 3일 이내 답변
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="container">
+      <div class="section-label fade-in">자주 묻는 질문</div>
+      <h2 class="fade-in">궁금한 점을 <strong style="color:var(--green)">모아봤습니다</strong></h2>
+
+      <div class="faq-list fade-in">
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            공식 할랄 인증인가요?
+            <span class="faq-arrow">▾</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              아닙니다. 할랄 서울은 공식 제3자 할랄 인증 기관이 아닙니다.
+              본 서비스는 제품 성분을 AI로 분석하여 할랄 기준에 부합하는지 여부에 대한
+              <strong>정보를 제공</strong>하는 도구입니다.
+              분석 결과는 참고 자료로 활용하시고, 최종 할랄 판단과 책임은 <strong>이용자 본인</strong>에게 있습니다.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            어떤 제품을 지원하나요?
+            <span class="faq-arrow">▾</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              한국에서 유통되는 바코드가 있는 제품을 지원합니다.
+              마트, 편의점, 온라인몰에서 판매되는 식품, 음료, 과자류 등
+              바코드가 표기된 제품이라면 대부분 조회 가능합니다.
+              데이터베이스에 없는 제품은 이미지 또는 성분표 입력으로 분석을 요청할 수 있습니다.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            해지하면 바로 이용이 중단되나요?
+            <span class="faq-arrow">▾</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              아닙니다. 해지를 신청하더라도 <strong>구독 만료일까지</strong>는 계속 이용하실 수 있습니다.
+              만료일 이후 자동 갱신만 중단됩니다. 즉, 해지 후에도 결제한 기간 동안은 모든 기능이 정상 작동합니다.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            어떤 성분이 주의 대상으로 분류되나요?
+            <span class="faq-arrow">▾</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              주요 주의·위험 성분으로는 <strong>돼지 유래 성분</strong>(젤라틴, 라드, 콜라겐 등),
+              <strong>알코올 성분</strong>(에탄올, 주정 등), <strong>불명확한 동물성 첨가물</strong>(카르민, 쇼트닝 등),
+              일부 <strong>E-코드 첨가물</strong> 등이 있습니다.
+              성분별로 위험·주의·안전 등급을 구분하여 각각의 이유와 함께 표시합니다.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            기도 시간은 얼마나 정확한가요?
+            <span class="faq-arrow">▾</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              현재 GPS 위치를 기반으로 표준 천문학 계산 방식을 사용하여 기도 시간을 산출합니다.
+              <strong>한국 전역 모든 도시</strong>에서 매일 업데이트됩니다.
+              키블라 방향도 실시간 위치를 기반으로 자동 계산되어 별도 설정이 필요 없습니다.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            할랄 지도에 누구나 장소를 추가할 수 있나요?
+            <span class="faq-arrow">▾</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              네, 가입한 이용자라면 누구든 장소를 제안하고 리뷰를 남길 수 있습니다.
+              등록된 장소는 커뮤니티 검증 과정을 거친 후 지도에 표시됩니다.
+              직접 한국에서 생활하는 무슬림들이 만들어가는 지도이기 때문에 더욱 신뢰할 수 있습니다.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            앱은 언제 출시되나요?
+            <span class="faq-arrow">▾</span>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              현재 베타 출시를 준비 중입니다. 베타 신청자에게는 출시 즉시 우선 알림을 드리며,
+              베타 기간 동안은 <strong>무료</strong>로 모든 기능을 이용하실 수 있습니다.
+              지금 <a href="index.html#register" style="color:var(--green);font-weight:600">베타 신청</a>을 완료해 두시면 가장 먼저 초대받으실 수 있습니다.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-logo">Halal <span>Seoul</span> · 할랄 서울</span>
+      <div class="footer-biz">
+        <b>상호명</b>: 할랄 서울 &nbsp;|&nbsp;
+        <b>대표자</b>: 손승민 &nbsp;|&nbsp;
+        <b>사업자등록번호</b>: 421-25-02149 &nbsp;|&nbsp;
+        <b>이메일</b>: <a href="mailto:halalseoul.official@gmail.com"
+          style="color:rgba(255,255,255,.6);text-decoration:none">halalseoul.official@gmail.com</a>
+      </div>
+      <div class="footer-links">
+        <a href="terms.html">이용약관</a>
+        <a href="privacy.html">개인정보처리방침</a>
+        <a href="refund-policy.html">취소·환불 정책</a>
+        <a href="index.html">홈으로</a>
+      </div>
+      <div class="footer-copy">
+        © 2026 Halal Seoul. All rights reserved. · 본 서비스는 공식 할랄 인증이 아닌 성분 정보 제공 서비스입니다.
+      </div>
+    </div>
+  </footer>
+
+
+  <script>
+    function toggleNav() {
+      const nav = document.getElementById('navLinks');
+      const btn = document.getElementById('hamburger');
+      const isOpen = nav.classList.toggle('nav-open');
+      btn.classList.toggle('open', isOpen);
+    }
+
+    document.addEventListener('click', function (e) {
+      const nav = document.getElementById('navLinks');
+      const btn = document.getElementById('hamburger');
+      if (nav.classList.contains('nav-open') && !nav.contains(e.target) && !btn.contains(e.target)) {
+        nav.classList.remove('nav-open');
+        btn.classList.remove('open');
+      }
+    });
+
+    function toggleFaq(btn) {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    }
+
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+      });
+    }, { threshold: .1 });
+    document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+  </script>
+
+</body>
+</html>
