@@ -272,7 +272,26 @@
 
     h1 em {
       font-style: normal;
-      color: var(--green)
+      background: linear-gradient(120deg, #0D7A55 20%, #10B97A 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--green-soft);
+      border: 1px solid rgba(13,122,85,.18);
+      color: var(--green);
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 100px;
+      margin-bottom: 22px
     }
 
 
@@ -1878,7 +1897,8 @@
     <div class="hero-deco b"></div>
     <div class="hero-content">
       <div class="hero-text fade-in">
-<h1>Your <em>Muslim Life</em><br>in Korea,<br>All in One App.</h1>
+        <div class="hero-eyebrow">✦ Muslim Lifestyle App</div>
+<h1>Made for<br><em>Muslim life</em><br>in Korea.</h1>
         <p class="hero-sub">Halal scanner, prayer times, community, and a halal map — everything a Muslim needs in Korea, in one app. Scan any K-Food product instantly, find halal spots nearby, and connect with the Muslim community around you.</p>
         <div class="hero-cta-block">
           <p class="hero-cta-label">

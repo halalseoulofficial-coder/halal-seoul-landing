@@ -74,7 +74,28 @@
     .header-deco.a { background: var(--green-light); top: -80px; right: -60px }
     .header-deco.b { background: #C9A84C; bottom: -100px; left: -60px; opacity: .15 }
     #page-header h1 { font-size: clamp(40px, 5.5vw, 72px); font-weight: 900; line-height: 1.15; letter-spacing: -.025em; margin-bottom: 20px }
-    #page-header h1 em { font-style: normal; color: var(--green) }
+    #page-header h1 em {
+      font-style: normal;
+      background: linear-gradient(120deg, #0D7A55 20%, #10B97A 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text
+    }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--green-soft);
+      border: 1px solid rgba(13,122,85,.18);
+      color: var(--green);
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 100px;
+      margin-bottom: 22px
+    }
     .header-sub { color: var(--text2); font-size: 1.25rem; max-width: 600px; margin: 0 auto 28px; line-height: 1.8 }
     .notice-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--gold-soft); border: 1px solid rgba(184,134,11,.2); border-radius: 99px; padding: 10px 24px; font-size: .9rem; font-weight: 600; color: var(--gold); line-height: 1.5 }
 
@@ -253,8 +274,8 @@
     <div class="header-deco a"></div>
     <div class="header-deco b"></div>
     <div class="container fade-in">
-      <div class="section-label">About Halal Seoul</div>
-      <h1>Your Muslim Life<br>in Korea,<br><em>All in One App.</em></h1>
+      <div class="hero-eyebrow">✦ Muslim Lifestyle App</div>
+      <h1>Made for <em>Muslim life</em><br>in Korea.</h1>
       <p class="header-sub">
         Halal scanner, prayer times, community, and a halal map — Halal Seoul is the all-in-one Muslim lifestyle app built for Muslims living in and visiting Korea.
       </p>
