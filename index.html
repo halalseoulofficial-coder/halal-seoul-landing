@@ -320,6 +320,10 @@ body.modal-lock{overflow:hidden}
 .field input:focus,.field textarea:focus{outline:none;border-color:var(--green-500);background:var(--white)}
 .modal-submit{width:100%;justify-content:center;margin-top:26px}
 .modal-note{margin-top:14px;font-size:12px;color:var(--ink-40);text-align:center;font-weight:600;line-height:1.55}
+.modal-status{margin-top:14px;font-size:13px;text-align:center;font-weight:700;display:none}
+.modal-status.show{display:block}
+.modal-status.ok{color:var(--good)}
+.modal-status.err{color:var(--bad)}
 body[data-lang="ko"] .modal-sub,body[data-lang="ko"] .modal-note{line-height:1.75}
 @media(max-width:560px){.modal{padding:30px 24px}}
 
@@ -1161,6 +1165,8 @@ body[data-lang="ko"] .modal-sub,body[data-lang="ko"] .modal-note{line-height:1.7
       <p class="modal-sub">Leave your details and we'll get back to you within three business days.</p>
     </div>
     <form id="partnerForm">
+      <input type="hidden" name="access_key" value="84090dd1-e675-48a3-ab8a-9ab32487e71e">
+      <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
       <label class="field">
         <span class="lang-ko">회사명 *</span><span class="lang-en">Company name *</span>
         <input type="text" name="company" autocomplete="organization" required>
@@ -1181,9 +1187,10 @@ body[data-lang="ko"] .modal-sub,body[data-lang="ko"] .modal-note{line-height:1.7
         <span class="lang-ko">문의 보내기</span><span class="lang-en">Send inquiry</span><span class="arr">→</span>
       </button>
       <p class="modal-note">
-        <span class="lang-ko">제출을 누르면 메일 앱이 열립니다. 내용을 확인하고 '보내기'를 눌러야 저희에게 최종 접수됩니다.</span>
-        <span class="lang-en">Submitting opens your email app with everything filled in — hit “send” there to complete it.</span>
+        <span class="lang-ko">제출을 누르면 담당팀에게 바로 이메일로 접수됩니다.</span>
+        <span class="lang-en">Submitting sends your inquiry straight to our team by email.</span>
       </p>
+      <p class="modal-status" id="partnerFormStatus" role="status" aria-live="polite"></p>
     </form>
   </div>
 </div>
@@ -1324,37 +1331,42 @@ body[data-lang="ko"] .modal-sub,body[data-lang="ko"] .modal-note{line-height:1.7
     if (e.target === pOverlay || e.target.closest('#partnerModalClose')){ closePartnerModal(); }
   });
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closePartnerModal(); });
+  var pStatus = document.getElementById('partnerFormStatus');
+  var pSubmitBtn = pForm ? pForm.querySelector('.modal-submit') : null;
+  function setPartnerStatus(cls, text){
+    if (!pStatus) return;
+    pStatus.className = 'modal-status show ' + cls;
+    pStatus.textContent = text;
+  }
   if (pForm){
     pForm.addEventListener('submit', function(e){
       e.preventDefault();
       var fd = new FormData(pForm);
       var company = (fd.get('company') || '').trim();
-      var contactName = (fd.get('contact_name') || '').trim();
       var email = (fd.get('email') || '').trim();
       var product = (fd.get('product') || '').trim();
       if (!company || !email || !product) return;
       var isKo = state.lang === 'ko';
-      var subject = (isKo ? '[입점문의] ' : '[Partnership Inquiry] ') + company;
-      var lines = isKo ? [
-        '회사명: ' + company,
-        contactName ? '담당자명: ' + contactName : null,
-        '이메일: ' + email,
-        '',
-        '입점 희망 상품:',
-        product
-      ] : [
-        'Company: ' + company,
-        contactName ? 'Contact person: ' + contactName : null,
-        'Email: ' + email,
-        '',
-        'Product to list:',
-        product
-      ];
-      var body = lines.filter(function(l){ return l !== null; }).join('\n');
-      var mailto = 'mailto:contact@halalseoul.kr?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-      window.location.href = mailto;
-      closePartnerModal();
-      pForm.reset();
+      fd.set('subject', (isKo ? '[입점문의] ' : '[Partnership Inquiry] ') + company);
+      if (pStatus){ pStatus.className = 'modal-status'; pStatus.textContent = ''; }
+      if (pSubmitBtn) pSubmitBtn.disabled = true;
+      fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: fd
+      }).then(function(r){ return r.json(); }).then(function(data){
+        if (pSubmitBtn) pSubmitBtn.disabled = false;
+        if (data && data.success){
+          pForm.reset();
+          setPartnerStatus('ok', isKo ? '문의가 접수되었습니다. 감사합니다!' : 'Your inquiry has been sent. Thank you!');
+          window.setTimeout(closePartnerModal, 1600);
+        } else {
+          setPartnerStatus('err', isKo ? '전송에 실패했습니다. contact@halalseoul.kr로 직접 메일 부탁드립니다.' : 'Something went wrong. Please email us directly at contact@halalseoul.kr.');
+        }
+      }).catch(function(){
+        if (pSubmitBtn) pSubmitBtn.disabled = false;
+        setPartnerStatus('err', isKo ? '전송에 실패했습니다. contact@halalseoul.kr로 직접 메일 부탁드립니다.' : 'Something went wrong. Please email us directly at contact@halalseoul.kr.');
+      });
     });
   }
 
