@@ -324,6 +324,10 @@ body.modal-lock{overflow:hidden}
 .modal-status.show{display:block}
 .modal-status.ok{color:var(--good)}
 .modal-status.err{color:var(--bad)}
+.modal-success{text-align:center;padding:12px 0 4px}
+.modal-success-icon{width:56px;height:56px;line-height:56px;border-radius:50%;background:var(--green-50);color:var(--green-600);font-size:26px;font-weight:900;margin:0 auto 18px}
+.modal-success h3{font-size:20px;font-weight:900;color:var(--green-900);margin-bottom:10px}
+.modal-success p{font-size:14px;color:var(--ink-60);line-height:1.6;margin-bottom:22px}
 body[data-lang="ko"] .modal-sub,body[data-lang="ko"] .modal-note{line-height:1.75}
 @media(max-width:560px){.modal{padding:30px 24px}}
 
@@ -1192,6 +1196,16 @@ body[data-lang="ko"] .modal-sub,body[data-lang="ko"] .modal-note{line-height:1.7
       </p>
       <p class="modal-status" id="partnerFormStatus" role="status" aria-live="polite"></p>
     </form>
+    <div class="modal-success" id="partnerSuccess" role="status" aria-live="polite" hidden>
+      <div class="modal-success-icon">✓</div>
+      <h3 class="lang-ko">문의가 전달되었습니다</h3>
+      <h3 class="lang-en">Your inquiry has been delivered</h3>
+      <p class="lang-ko">담당자에게 전달되었으며, 영업일 기준 3일 이내에 이메일로 회신드리겠습니다.</p>
+      <p class="lang-en">It's been sent to our team — we'll get back to you by email within three business days.</p>
+      <button type="button" class="btn btn-primary modal-submit" id="partnerSuccessClose">
+        <span class="lang-ko">확인</span><span class="lang-en">Got it</span>
+      </button>
+    </div>
   </div>
 </div>
 
@@ -1315,7 +1329,10 @@ body[data-lang="ko"] .modal-sub,body[data-lang="ko"] .modal-note{line-height:1.7
   /* partner inquiry modal */
   var pOverlay = document.getElementById('partnerModalOverlay');
   var pForm = document.getElementById('partnerForm');
+  var pSuccess = document.getElementById('partnerSuccess');
   function openPartnerModal(){
+    pForm.hidden = false;
+    pSuccess.hidden = true;
     pOverlay.classList.add('open');
     pOverlay.setAttribute('aria-hidden','false');
     document.body.classList.add('modal-lock');
@@ -1328,6 +1345,7 @@ body[data-lang="ko"] .modal-sub,body[data-lang="ko"] .modal-note{line-height:1.7
   }
   document.addEventListener('click', function(e){
     if (e.target.closest('.js-partner-cta')){ e.preventDefault(); openPartnerModal(); return; }
+    if (e.target.closest('#partnerSuccessClose')){ closePartnerModal(); return; }
     if (e.target === pOverlay || e.target.closest('#partnerModalClose')){ closePartnerModal(); }
   });
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closePartnerModal(); });
@@ -1358,8 +1376,8 @@ body[data-lang="ko"] .modal-sub,body[data-lang="ko"] .modal-note{line-height:1.7
         if (pSubmitBtn) pSubmitBtn.disabled = false;
         if (data && data.success){
           pForm.reset();
-          setPartnerStatus('ok', isKo ? '문의가 접수되었습니다. 감사합니다!' : 'Your inquiry has been sent. Thank you!');
-          window.setTimeout(closePartnerModal, 1600);
+          pForm.hidden = true;
+          pSuccess.hidden = false;
         } else {
           setPartnerStatus('err', isKo ? '전송에 실패했습니다. contact@halalseoul.kr로 직접 메일 부탁드립니다.' : 'Something went wrong. Please email us directly at contact@halalseoul.kr.');
         }
