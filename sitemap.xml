@@ -2,85 +2,85 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://halalseoul.kr/en/</loc>
+    <loc>https://halalseoul.co.kr/en/</loc>
     <lastmod>2026-08-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://halalseoul.kr/en/"/>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://halalseoul.kr/ko/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://halalseoul.kr/en/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://halalseoul.co.kr/en/"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://halalseoul.co.kr/ko/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://halalseoul.co.kr/en/"/>
   </url>
   <url>
-    <loc>https://halalseoul.kr/ko/</loc>
+    <loc>https://halalseoul.co.kr/ko/</loc>
     <lastmod>2026-08-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://halalseoul.kr/en/"/>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://halalseoul.kr/ko/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://halalseoul.kr/en/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://halalseoul.co.kr/en/"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://halalseoul.co.kr/ko/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://halalseoul.co.kr/en/"/>
   </url>
   <url>
-    <loc>https://halalseoul.kr/en/partners/</loc>
+    <loc>https://halalseoul.co.kr/en/partners/</loc>
     <lastmod>2026-08-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://halalseoul.kr/en/partners/"/>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://halalseoul.kr/ko/partners/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://halalseoul.kr/en/partners/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://halalseoul.co.kr/en/partners/"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://halalseoul.co.kr/ko/partners/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://halalseoul.co.kr/en/partners/"/>
   </url>
   <url>
-    <loc>https://halalseoul.kr/ko/partners/</loc>
+    <loc>https://halalseoul.co.kr/ko/partners/</loc>
     <lastmod>2026-08-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://halalseoul.kr/en/partners/"/>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://halalseoul.kr/ko/partners/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://halalseoul.kr/en/partners/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://halalseoul.co.kr/en/partners/"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://halalseoul.co.kr/ko/partners/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://halalseoul.co.kr/en/partners/"/>
   </url>
   <url>
-    <loc>https://halalseoul.kr/en/about/</loc>
+    <loc>https://halalseoul.co.kr/en/about/</loc>
     <lastmod>2026-08-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://halalseoul.kr/en/about/"/>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://halalseoul.kr/ko/about/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://halalseoul.kr/en/about/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://halalseoul.co.kr/en/about/"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://halalseoul.co.kr/ko/about/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://halalseoul.co.kr/en/about/"/>
   </url>
   <url>
-    <loc>https://halalseoul.kr/ko/about/</loc>
+    <loc>https://halalseoul.co.kr/ko/about/</loc>
     <lastmod>2026-08-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://halalseoul.kr/en/about/"/>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://halalseoul.kr/ko/about/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://halalseoul.kr/en/about/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://halalseoul.co.kr/en/about/"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://halalseoul.co.kr/ko/about/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://halalseoul.co.kr/en/about/"/>
   </url>
   <url>
-    <loc>https://halalseoul.kr/privacy.html</loc>
+    <loc>https://halalseoul.co.kr/privacy.html</loc>
     <lastmod>2026-08-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://halalseoul.kr/terms.html</loc>
+    <loc>https://halalseoul.co.kr/terms.html</loc>
     <lastmod>2026-08-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://halalseoul.kr/refund-policy.html</loc>
+    <loc>https://halalseoul.co.kr/refund-policy.html</loc>
     <lastmod>2026-08-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://halalseoul.kr/service.html</loc>
+    <loc>https://halalseoul.co.kr/service.html</loc>
     <lastmod>2026-08-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://halalseoul.kr/service-en.html</loc>
+    <loc>https://halalseoul.co.kr/service-en.html</loc>
     <lastmod>2026-08-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
